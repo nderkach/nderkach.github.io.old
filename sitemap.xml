@@ -2,17 +2,57 @@
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   
+  <url>
+    <loc>http://nderkach.github.io/blog/2013/12/03/basic-http-authentication-with-forms/</loc>
+    
+    <lastmod>2013-12-03T10:21:00-08:00</lastmod>
+    
+    <priority>0.8</priority>
+  </url>
+  
+  <url>
+    <loc>http://nderkach.github.io/blog/2013/11/24/hacking-couchsurfing-dot-org-api-part-2/</loc>
+    
+    <lastmod>2013-11-24T21:51:00-08:00</lastmod>
+    
+    <priority>0.8</priority>
+  </url>
+  
+  <url>
+    <loc>http://nderkach.github.io/blog/2013/11/17/hacking-couchsurfing-dot-org-api/</loc>
+    
+    <lastmod>2013-11-17T20:00:00-08:00</lastmod>
+    
+    <priority>0.8</priority>
+  </url>
+  
+  <url>
+    <loc>http://nderkach.github.io/blog/2013/10/27/things-ive-learned-porting-ebay-sdk-to-python-3/</loc>
+    
+    <lastmod>2013-10-27T00:00:00-07:00</lastmod>
+    
+    <priority>0.8</priority>
+  </url>
+  
+  <url>
+    <loc>http://nderkach.github.io/blog/2013/10/21/how-to-setup-a-typical-python-development-environment-on-opensuse/</loc>
+    
+    <lastmod>2013-10-21T00:00:00-07:00</lastmod>
+    
+    <priority>0.8</priority>
+  </url>
+  
   
   <url>
     <loc>http://nderkach.github.io/blog/archives/</loc>
-    <lastmod>2014-09-26T14:57:47-07:00</lastmod>
+    <lastmod>2014-09-26T15:07:06-07:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   
   <url>
     <loc>http://nderkach.github.io/</loc>
-    <lastmod>2014-09-26T14:57:47-07:00</lastmod>
+    <lastmod>2014-09-26T15:07:06-07:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>

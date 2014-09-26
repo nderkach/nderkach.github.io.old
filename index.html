@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>My Octopress Blog</title>
-  <meta name="author" content="Your Name">
+  <title>Nikolay Derkach&#8217;s hacking adventures</title>
+  <meta name="author" content="Nikolay Derkach">
 
   
-  <meta name="description" content=" Blog Archives Recent Posts ">
+  <meta name="description" content="Here is a fairly simple trick, how to use basic HTTP authentication (yes, the one where you have an ugly popup window) with HTML forms. I&rsquo;m &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -21,7 +21,7 @@
   <link rel="canonical" href="http://nderkach.github.io">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
-  <link href="/atom.xml" rel="alternate" title="My Octopress Blog" type="application/atom+xml">
+  <link href="/atom.xml" rel="alternate" title="Nikolay Derkach's hacking adventures" type="application/atom+xml">
   <script src="/javascripts/modernizr-2.0.js"></script>
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
   <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
@@ -31,14 +31,26 @@
 <link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
 
   
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-37086340-3']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
 
 </head>
 
 <body   >
   <header role="banner"><hgroup>
-  <h1><a href="/">My Octopress Blog</a></h1>
+  <h1><a href="/">Nikolay Derkach&#8217;s hacking adventures</a></h1>
   
-    <h2>A blogging framework for hackers.</h2>
+    <h2>http://nikolayderkach.com</h2>
   
 </hgroup>
 
@@ -48,7 +60,7 @@
   
 </ul>
   
-<form action="https://www.google.com/search" method="get">
+<form action="http://google.com/search" method="get">
   <fieldset role="search">
     <input type="hidden" name="q" value="site:nderkach.github.io" />
     <input class="search" type="text" name="q" results="0" placeholder="Search"/>
@@ -66,6 +78,564 @@
       <div class="blog-index">
   
   
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/12/03/basic-http-authentication-with-forms/">Basic HTTP Authentication With Forms</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2013-12-03T10:21:00-08:00'><span class='date'><span class='date-month'>Dec</span> <span class='date-day'>3</span><span class='date-suffix'>rd</span>, <span class='date-year'>2013</span></span> <span class='time'>10:21 am</span></time>
+        
+           | <a href="/blog/2013/12/03/basic-http-authentication-with-forms/#disqus_thread"
+             data-disqus-identifier="http://nderkach.github.io/blog/2013/12/03/basic-http-authentication-with-forms/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Here is a fairly simple trick, how to use basic HTTP authentication (yes, the one where you have an ugly popup window) with HTML forms. I&rsquo;m actually quiet surprised not a lot of developers are aware of it, as it&rsquo;s quiet neat.</p>
+
+<p>In short, the idea is that you create a form and pass authentication data to your backend.
+Simple enough, right? Here is how it&rsquo;s working under the hood.</p>
+
+<p>You create a basic HTML for with a submit button:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='html'><span class='line'><span class="nt">&lt;form</span> <span class="na">id=</span><span class="s">&quot;form-signin&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">&quot;text&quot;</span> <span class="na">id=</span><span class="s">&quot;login&quot;</span> <span class="na">placeholder=</span><span class="s">&quot;Login or Email&quot;</span> <span class="na">required</span> <span class="na">autofocus=</span><span class="s">&quot;&quot;</span><span class="nt">&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">&quot;password&quot;</span> <span class="na">id=</span><span class="s">&quot;password&quot;</span> <span class="na">placeholder=</span><span class="s">&quot;Password&quot;</span> <span class="na">required</span><span class="nt">&gt;</span>
+</span><span class='line'>  <span class="nt">&lt;button</span> <span class="na">type=</span><span class="s">&quot;submit&quot;</span><span class="nt">&gt;</span> Sign In <span class="nt">&lt;/button&gt;</span>
+</span><span class='line'><span class="nt">&lt;/form&gt;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>On top of that you add a javascript handler (this one uses jQuery), which sends a XMLHTTPRequest to the backend authentication folder (<code>/login</code> in our case) via username and password keys in the ajax call:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">$</span><span class="p">(</span><span class="nb">document</span><span class="p">).</span><span class="nx">ready</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span>
+</span><span class='line'><span class="p">{</span>
+</span><span class='line'>  <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;.form-signin&#39;</span><span class="p">).</span><span class="nx">submit</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span>
+</span><span class='line'>  <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="kd">var</span> <span class="nx">username</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#login&#39;</span><span class="p">).</span><span class="nx">val</span><span class="p">();</span>
+</span><span class='line'>      <span class="kd">var</span> <span class="nx">password</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#password&#39;</span><span class="p">).</span><span class="nx">val</span><span class="p">();</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;login: &quot;</span> <span class="o">+</span> <span class="nx">username</span><span class="p">);</span>
+</span><span class='line'>      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;password: &quot;</span> <span class="o">+</span> <span class="nx">password</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="nx">$</span><span class="p">.</span><span class="nx">ajax</span><span class="p">(</span>
+</span><span class='line'>      <span class="p">{</span>
+</span><span class='line'>        <span class="s1">&#39;username&#39;</span> <span class="o">:</span> <span class="nx">username</span><span class="p">,</span>
+</span><span class='line'>        <span class="s1">&#39;password&#39;</span> <span class="o">:</span> <span class="nx">password</span><span class="p">,</span>
+</span><span class='line'>        <span class="s1">&#39;url&#39;</span>      <span class="o">:</span> <span class="s1">&#39;/login&#39;</span><span class="p">,</span>
+</span><span class='line'>        <span class="s1">&#39;type&#39;</span>     <span class="o">:</span> <span class="s1">&#39;GET&#39;</span><span class="p">,</span>
+</span><span class='line'>        <span class="s1">&#39;success&#39;</span>  <span class="o">:</span> <span class="kd">function</span><span class="p">(){</span>
+</span><span class='line'>            <span class="cm">/* authentication ok, redirect to the app */</span>
+</span><span class='line'>            <span class="nb">window</span><span class="p">.</span><span class="nx">location</span> <span class="o">=</span> <span class="s1">&#39;/&#39;</span><span class="p">;</span>
+</span><span class='line'>        <span class="p">},</span>
+</span><span class='line'>        <span class="s1">&#39;error&#39;</span>    <span class="o">:</span> <span class="kd">function</span><span class="p">(){</span>
+</span><span class='line'>            <span class="cm">/* bootstrap alerts */</span>
+</span><span class='line'>            <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#alert&#39;</span><span class="p">).</span><span class="nx">remove</span><span class="p">();</span>
+</span><span class='line'>            <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;&lt;div class=&quot;alert alert-danger&quot; id=&quot;alert&quot;&gt;Wrong login/password. Try again.&lt;/div&gt;&#39;</span><span class="p">).</span><span class="nx">insertAfter</span><span class="p">(</span><span class="s2">&quot;#password&quot;</span><span class="p">).</span><span class="nx">hide</span><span class="p">().</span><span class="nx">slideDown</span><span class="p">(</span><span class="s2">&quot;slow&quot;</span><span class="p">);</span>
+</span><span class='line'>        <span class="p">},</span>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>      <span class="p">);</span>
+</span><span class='line'>      <span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">});</span>
+</span><span class='line'><span class="p">});</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>I won&rsquo;t go into details, how Basic HTTP authentication works, but the idea is that the server sends a request for authentication as a 401 response with <code>WWW-Authenticate</code> header. So, whenever your backend receives a HTTP request with no authorization header, you want to send this response to authenticate user.</p>
+
+<p>Then the client sends another request with authorization this time, such as:</p>
+
+<p><code>Authorization: Basic QWxhZGRpbjpvcGVuIHNlc2FtZQ==</code></p>
+
+<p>Where the token are concatenated login and password in Base64. This is why you absolutely must use Basic Auth over HTTPS, if such option is not available, stay away from it.</p>
+
+<p>Finally when you backend receives the credential and you check that they are valid, you send another response (e.g. 200 for success and 400 for failure). That&rsquo;s it.</p>
+
+<p>As a bonus, here is a backend implementation of the above in Python with Flask (based on <a href="http://flask.pocoo.org/snippets/8/">this</a> snippet:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+<span class='line-number'>42</span>
+<span class='line-number'>43</span>
+<span class='line-number'>44</span>
+<span class='line-number'>45</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">wraps</span>
+</span><span class='line'><span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">render_template</span><span class="p">,</span> <span class="n">jsonify</span><span class="p">,</span> <span class="n">Response</span><span class="p">,</span> <span class="n">abort</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">check_auth</span><span class="p">(</span><span class="n">username</span><span class="p">,</span> <span class="n">password</span><span class="p">):</span>
+</span><span class='line'>    <span class="sd">&quot;&quot;&quot;This function is called to check if a username /</span>
+</span><span class='line'><span class="sd">    password combination is valid.</span>
+</span><span class='line'><span class="sd">    &quot;&quot;&quot;</span>
+</span><span class='line'>    <span class="k">try</span><span class="p">:</span>
+</span><span class='line'>      <span class="c"># check if username and password are correct</span>
+</span><span class='line'>    <span class="k">except</span> <span class="n">AuthException</span><span class="p">:</span>
+</span><span class='line'>      <span class="k">return</span> <span class="bp">False</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">api</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">authenticate</span><span class="p">():</span>
+</span><span class='line'>    <span class="sd">&quot;&quot;&quot;Sends a 401 response that enables basic auth&quot;&quot;&quot;</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">Response</span><span class="p">(</span>
+</span><span class='line'>    <span class="s">&#39;Could not verify your access level for that URL.</span><span class="se">\n</span><span class="s">&#39;</span>
+</span><span class='line'>    <span class="s">&#39;You have to login with proper credentials&#39;</span><span class="p">,</span> <span class="mi">401</span><span class="p">,</span>
+</span><span class='line'>    <span class="p">{</span><span class="s">&#39;WWW-Authenticate&#39;</span><span class="p">:</span> <span class="s">&#39;Basic realm=&quot;&quot;&#39;</span><span class="p">})</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">requires_auth</span><span class="p">(</span><span class="n">f</span><span class="p">):</span>
+</span><span class='line'>    <span class="nd">@wraps</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">def</span> <span class="nf">decorated</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+</span><span class='line'>        <span class="n">auth</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">authorization</span>
+</span><span class='line'>        <span class="k">if</span> <span class="ow">not</span> <span class="n">auth</span><span class="p">:</span>
+</span><span class='line'>            <span class="k">return</span> <span class="n">authenticate</span><span class="p">()</span>
+</span><span class='line'>        <span class="n">api</span> <span class="o">=</span> <span class="n">check_auth</span><span class="p">(</span><span class="n">auth</span><span class="o">.</span><span class="n">username</span><span class="p">,</span> <span class="n">auth</span><span class="o">.</span><span class="n">password</span><span class="p">)</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">f</span><span class="p">(</span><span class="n">api</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">return</span> <span class="n">decorated</span>
+</span><span class='line'>
+</span><span class='line'><span class="nd">@app.route</span><span class="p">(</span><span class="s">&#39;/&#39;</span><span class="p">)</span>
+</span><span class='line'><span class="k">def</span> <span class="nf">index</span><span class="p">():</span>
+</span><span class='line'>    <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">authorization</span><span class="p">:</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">render_template</span><span class="p">(</span><span class="s">&quot;index.html&quot;</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">else</span><span class="p">:</span>
+</span><span class='line'>      <span class="c"># that&#39;s where your login form is</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">render_template</span><span class="p">(</span><span class="s">&quot;login.html&quot;</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="nd">@app.route</span><span class="p">(</span><span class="s">&#39;/login&#39;</span><span class="p">)</span>
+</span><span class='line'><span class="nd">@requires_auth</span>
+</span><span class='line'><span class="k">def</span> <span class="nf">login</span><span class="p">(</span><span class="n">api</span><span class="p">):</span>
+</span><span class='line'>    <span class="k">if</span> <span class="n">api</span><span class="p">:</span>
+</span><span class='line'>        <span class="k">return</span> <span class="n">jsonify</span><span class="p">(),</span> <span class="mi">200</span>
+</span><span class='line'>    <span class="k">else</span><span class="p">:</span>
+</span><span class='line'>        <span class="n">abort</span><span class="p">(</span><span class="mi">400</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>And one more thing, <a href="https://cscalendar.herokuapp.com">here is</a> how it looks like.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/11/24/hacking-couchsurfing-dot-org-api-part-2/">Hacking couchsurfing.org API Part 2</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2013-11-24T21:51:00-08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>24</span><span class='date-suffix'>th</span>, <span class='date-year'>2013</span></span> <span class='time'>9:51 pm</span></time>
+        
+           | <a href="/blog/2013/11/24/hacking-couchsurfing-dot-org-api-part-2/#disqus_thread"
+             data-disqus-identifier="http://nderkach.github.io/blog/2013/11/24/hacking-couchsurfing-dot-org-api-part-2/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>This is a follow-up for my <a href="/blog/2013/11/17/hacking-couchsurfing-dot-org-api/">previous article</a>. To remind you, I&rsquo;ve created a web app <a href="http://couchrequests.com">http://couchrequests.com</a> which extends functionality of <a href="http://couchsurfing.org">http://couchsurfing.org</a> by accessing their private API.</p>
+
+<p>I&rsquo;ve decided to go an extra mile and implement another highly-demanded feature: couch availability calendars embedded in users&#8217; profiles. Wouldn&rsquo;t it be just awesome to have such a calendar which is updated automatically?</p>
+
+<p>So I&rsquo;d done some research to see which embedding options are actually available in couchsurfing.org profiles. By trial and error I figure out you can use either bbcode or a restricted set of html tags. Luckily <code>&lt;a&gt;</code> and <code>&lt;img&gt;</code> tags were available. So here is a solution I came up with: generate a JPG image with my service and embed this link into a profile.</p>
+
+<p>Then I figured I could create a page for every user which displays a calendar for the current month. This page would be public and requires no authentication. Then I could make a screenshot of it and pass it through to a couchsurfing.org profile. Now, I want those snapshots to be more or less up-to-date, but no real-time updates are required. I assumed that most of the users would be satisfied with a refresh interval of one day.</p>
+
+<p>To make those screenshots I&rsquo;ve decided to use <a href="http://immediatenet.com/thumbnail_api.html">Website Thumbnail API from immediatenet.com</a>. The API is completely free and caches images. This is great, since it diminishes backend load, avoiding unnecessary backend queries on every profile request. The downside is that an image is cached up to 8 days, so the image displayed in a profile could be not so up-to-date. When a user clicks on it, he is redirected to an app page, which is refreshed every day though.</p>
+
+<p>Another potential issue with embedding images is browser caching, but this shouldn&rsquo;t be an issue as the image is typically going to be updated on the next browser session, and most of the time the host&rsquo;s profile is seen only once by a given user.</p>
+
+<p>Then, I need to find a way to generate individual user pages like that. Since I can&rsquo;t make queries to the API anymore, I need to store all the couchrequests&rsquo;s dates in the database. As I&rsquo;m storing JSON I&rsquo;ve decided to go with a document-based DB, with an index built on user ids. I&rsquo;ve opted for good old mongo from <a href="http://www.mongohq.com">http://www.mongohq.com</a> for this purpose.</p>
+
+<p>I&rsquo;ve made two options available for users:</p>
+
+<ul>
+<li>Create a snapshot of the current view (week/month/year) &ldquo;on demand&rdquo;</li>
+<li>Automatically regenerate the snapshot</li>
+</ul>
+
+
+<p>The second option is particularly appealing as it implies that once a user enables it, his calendar will always stay up-to-date and visitors of his profile will always see his couch availability information, with no action required from him. A user embeds the code provided by the application in his profile once and he is set.</p>
+
+<p>I need to be able to send API requests on behalf of a user. To make it happen I&rsquo;m storing user ids mapped to session cookies in the database. Luckily those session cookies have an unlimited expiration time (but If they didn&rsquo;t I&rsquo;d just send an occasional keep-alive request).</p>
+
+<p>Now, to refresh the calendar dates, I&rsquo;m running a cron-like job every day with <a href="https://devcenter.heroku.com/articles/scheduler">Heroku Scheduler</a>. I iterate through the db and check if a document has a &ldquo;cookie&rdquo; node  with <code>find({"cookie", {$exists: true} } )</code></p>
+
+<p>Users have an option to opt-out from storing their sessions as well.</p>
+
+<p>Also, for those calendar pages I&rsquo;m making a screenshot of, I&rsquo;ve decided to go with a more minimalistic design, as the resulting image embedded into a profile would be rather small, so readability is quiet important. Here is how a user page looks like: <a href="http://www.couchrequests.com/4732279">http://www.couchrequests.com/4732279</a></p>
+
+<p>Finally, whichever option you&rsquo;ll choose, you&rsquo;ll get a nice popup with the code:</p>
+
+<p><img src="/images/embed_code.png"></p>
+
+<p>So, here you go, I hope you&rsquo;ll enjoy using the <a href="http://couchrequests.com">couch availability calendar</a> and I&rsquo;m open for suggestions for new features. Also, the code for the app is available <a href="https://github.com/nderkach/couchsurfing-calendar">on github</a>.</p>
+
+<p>PS: here is how it looks in my profile:</p>
+
+<p><img src="/images/couchsurfing_calendar.png"></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/11/17/hacking-couchsurfing-dot-org-api/">Hacking couchsurfing.org API</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2013-11-17T20:00:00-08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>17</span><span class='date-suffix'>th</span>, <span class='date-year'>2013</span></span> <span class='time'>8:00 pm</span></time>
+        
+           | <a href="/blog/2013/11/17/hacking-couchsurfing-dot-org-api/#disqus_thread"
+             data-disqus-identifier="http://nderkach.github.io/blog/2013/11/17/hacking-couchsurfing-dot-org-api/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Traveling is my passion and I&rsquo;m an huge fan of <a href="http://couchsurfing.org">couchsurfing</a>. Couchsurfing is a global community of travelers, where you can find a place to stay or share you own home with other travelers. On top of that couchsurfing helps you to have genuine traveling experiences while interacting with locals. Here is <a href="https://www.couchsurfing.org/n/how-it-works">how it works</a>. Hell, I&rsquo;ve met some of the most awesome people in the world and made lots of friends though this community.</p>
+
+<p>I&rsquo;ve hosted a lot of travelers myself, much more than I actually surfed yet. Living in one of the major touristic destinations on the French Riviera, I receive an enormous amount of couch requests (sometimes up to a 10 a day during high season). The problem with couchsurfing.org website is that it doesn&rsquo;t really handle such &ldquo;high-load&rdquo; cases properly. There is no information about availability of your couch - when you receive a new couchrequest you can&rsquo;t be sure if you already hosting someone those days or not. There has to be a visual representation of your accepted and pending requests, so you can manage it better. And then, if you make your couch availability public, you can avoid unnecessary couch requests which overlap with days when you are unavailable. To have a better idea what I have in mind, have a look at <a href="https://www.airbnb.com/help/question/447">Airbnb calendar</a>.</p>
+
+<p>Alright then, I&rsquo;ve decided to make an app to solve this issue. First thing I&rsquo;ve checked was if there is an API for couchsurfing.org somewhere. It turned out there is no public API available. Here is the response I&rsquo;ve received from their support team:</p>
+
+<blockquote><p>Unfortunately we have to inform you that our API is not actually public and there are no plans at the moment to make it public.</p></blockquote>
+
+
+<p>Oh well, let&rsquo;s see if we can find a hackaround here.</p>
+
+<p>Fortunately they have an iOS app which uses this private API. I&rsquo;ve decided to setup a proxy with <a href="http://www.charlesproxy.com">Charles</a> to intercept HTTP requests with it. Requests are secured with SSL, but it&rsquo;s not a big deal if you install a root certificate for the proxy on your iPhone. <a href="http://blog.noodlewerk.com/general/tutorial-using-charles-proxy-to-debug-https-communication-between-server-and-ios-apps/">Here</a> you can find a complete guide on how to setup the whole thing. This way I was able to find access points of their private API and figure out their JSON payload format. Also, thanks a bunch to <a href="https://github.com/unRob">Roberto Hidalgo</a> for inspiration - he implemented a simple Ruby interface for the same API.</p>
+
+<p>I&rsquo;ve decided to design the app so that no data is stored on my servers (I respect the privacy of my users). This means that every time you send a request to the backend (every time you refresh the page or change week/month/year view), a query is sent to my couchsurfing python API wrapper, which sends a couple of requests to couchsurfing API. The first one is a POST to authenticate:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>https://api.couchsurfing.org/sessions?username=[]&password=[]</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Then you get a cookie which you can use throughout your session. Another option would be to store users data in the database. Yes, it improves user experience, as you have to wait for the data to be fetched only once, the first time you run the app, and then it is refreshed in the background. But I opted against this option for privacy and storage reasons. The problem with couchsurfing.org API was that there seems to be no way to get all the couchrequests with dates within a certain range, the only option available is to fetch all couchrequests created after a certain day.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>https://api.couchsurfing.org/users/[user_id]/couchrequests/?since=[unix_timestamp]&expand=couchrequests,users</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now, most of the couchrequests are created a week or two, before the planned arrival dates, but occasionally people create those much much beforehand. To take this into account I assumed that no requests are created earlier than 2 months in advance. This is a good enough trade-off between app response time and topicality of the data presented.</p>
+
+<p>Then you just parse the JSON response you get and pass the dates to the calendar javascript. I&rsquo;ve stubled upon a quiet curious issue on the way though, with python date representation. Apparently parsing a string into a UTC timestamp is not straightforward at all. One should avoid intermediary datetime structure, as it&rsquo;s not timezone aware. Have a look <a href="http://aboutsimon.com/2013/06/05/datetime-hell-time-zone-aware-to-unix-timestamp/">here</a> fore more details. Here is one of the ways to do it:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">calendar</span> <span class="kn">import</span> <span class="n">timegm</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">time</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">time_string_with_timezone</span> <span class="o">=</span> <span class="s">&quot;2013-06-05T15:19:10Z&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">timestamp</span> <span class="o">=</span> <span class="n">timegm</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">time_string_with_timezone</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&#39;Z&#39;</span><span class="p">,</span> <span class="s">&#39;GMT&#39;</span><span class="p">),</span>
+</span><span class='line'>                                            <span class="s">&quot;%Y-%m-</span><span class="si">%d</span><span class="s">T%H:%M:%S%Z&quot;</span><span class="p">))</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>That said, I might actually give <a href="http://crsmithdev.com/arrow/">arrow</a> a shot next time when I need to perform some date/time operations.</p>
+
+<p>Since I&rsquo;m not a frontend hacker-guru-ninja I&rsquo;ve decided to avoid reinventing the wheel and tried to find an html calendar template somewhere. As a huge fan of <a href="http://getbootstrap.com/">Twitter Bootstrap</a> I&rsquo;ve decided to go with awesome <a href="https://github.com/Serhioromano/bootstrap-calendar">Bootstrap Calendar</a> which served all my calendar visualization needs. It works like that: a custom javascript is loaded for every view (year/month/week/day), this script sends a HTTP requests to a specified URL to fetch the data for a given date range. Thus, I just needed to implement the required route in my web framework (I&rsquo;m using <a href="http://flask.pocoo.org/">Flask</a>) to generate JSON, which is being set back to the js library by a HTTP GET.
+Also, every time my server gets such a request I have to authenticate the user to be able to access couchsurfing API using python-couchsurfing. With Flask, using basic HTTP authentication (I&rsquo;ve used <a href="http://flask.pocoo.org/snippets/8/">this</a> as a template). Again, I&rsquo;m not happy about asking for user credentials, as it&rsquo;s major privacy intervention, but there seems to be no other way.</p>
+
+<p>Ah, one more thing. Here is the app:</p>
+
+<p><a href="http://couchrequests.com">http://couchrequests.com</a></p>
+
+<p>Check it out (you need a couchsurfing.org account). <a href="https://github.com/nderkach/couchsurfing-calendar">Fork it</a> on github. Enjoy.</p>
+
+<p>UPD: <a href="/blog/2013/11/17/hacking-couchsurfing-dot-org-api-part-2/">Hacking couchsurfing.org API Part 2</a></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/10/27/things-ive-learned-porting-ebay-sdk-to-python-3/">Things I&#8217;ve Learned Porting Ebay SDK to Python 3</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2013-10-27T00:00:00-07:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>27</span><span class='date-suffix'>th</span>, <span class='date-year'>2013</span></span> <span class='time'>12:00 am</span></time>
+        
+           | <a href="/blog/2013/10/27/things-ive-learned-porting-ebay-sdk-to-python-3/#disqus_thread"
+             data-disqus-identifier="http://nderkach.github.io/blog/2013/10/27/things-ive-learned-porting-ebay-sdk-to-python-3/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>One day I&rsquo;ve decided to play around with Ebay a little bit (nothing illegal i swear). And since I love python my first step was to find if there is an Python SDK available somewhere. And indeed there was <a href="https://go.developer.ebay.com/developers/ebay/product-updates/announcing-ebay-open-source-python-sdk">one</a>. Had a look at the corresponding <a href="https://github.com/timotheus/ebaysdk-python">github repository</a> it seems it&rsquo;s being maintained as well. Great! Well, not really - it doesn&rsquo;t work with Python 3. Oh well, time to get my hands dirty.</p>
+
+<p>First thing I did was to run an infamous <a href="http://docs.python.org/2/library/2to3.html">2to3 tool</a>. And frankly it was quiet a help as it&rsquo;s had a great work, especially with those tedious brackets around print statements (but unfortunately not in doctests).</p>
+
+<p>Well the &ldquo;porting&rdquo; part itself was pretty smooth and straightforward in fact. The problem was that, well the SDK itself was mostly broken and I had to fix up quiet a lot on my way through.</p>
+
+<p>Luckily there is an <a href="https://developer.ebay.com/DevZone/build-test/test-tool/">API testing tool</a>, which I could use as reference to form HTTP requests with correct headers and body XML.</p>
+
+<p>Then I&rsquo;ve stumbled upon a curious issue with pycurl and io.StringIO when using StringIO as a write callback for curl.
+The error looks as follows:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>pycurl.error: (23, 'Failed writing body (1457 != 1460)')</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Here is what I&rsquo;ve found in documentation:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>CURLE_WRITE_ERROR (23)
+</span><span class='line'>
+</span><span class='line'>An error occurred when writing received data to a local file, or an error was returned to libcurl from a write callback.</span></code></pre></td></tr></table></div></figure>
+
+
+<p>That&rsquo;s quiet an ambiguous description right here. Meaning that the issue could be either with a StringIO object or with my implementation of the write callback. I&rsquo;ve tried all the variations. Originally I just tried the following</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="bp">self</span><span class="o">.</span><span class="n">_curl</span><span class="o">.</span><span class="n">setopt</span><span class="p">(</span><span class="n">pycurl</span><span class="o">.</span><span class="n">WRITEFUNCTION</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_response_body</span><span class="o">.</span><span class="n">write</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>where <code>self._response_body</code> is a StringIO. This failed. Then I&rsquo;ve tried to add a lambda as a write callback:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="bp">self</span><span class="o">.</span><span class="n">_curl</span><span class="o">.</span><span class="n">setopt</span><span class="p">(</span><span class="n">pycurl</span><span class="o">.</span><span class="n">WRITEFUNCTION</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">buf</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_response_body</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">buf</span><span class="p">))</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Nope, didn&rsquo;t work either. No what did work was to add a real function, such as:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="c">## Callback function invoked when body data is ready</span>
+</span><span class='line'><span class="k">def</span> <span class="nf">body</span><span class="p">(</span><span class="n">buf</span><span class="p">):</span>
+</span><span class='line'>    <span class="bp">self</span><span class="o">.</span><span class="n">_response_body</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">buf</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="c">## Callback function invoked when header data is ready</span>
+</span><span class='line'><span class="k">def</span> <span class="nf">header</span><span class="p">(</span><span class="n">buf</span><span class="p">):</span>
+</span><span class='line'>    <span class="bp">self</span><span class="o">.</span><span class="n">_response_header</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">buf</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Well, frankly I could find an explanation why it worked this way only. I&rsquo;ve posted the question on <a href="http://stackoverflow.com/questions/19606447/pycurl-and-io-stringio-pycurl-error-23-failed-writing-body">stackoverflow</a> and I filed a <a href="https://github.com/pycurl/pycurl/issues/51">bug for pycurl</a> as well. Will see&hellip;</p>
+
+<p>Anyway, if you wish to try out python 3 friendly ebay sdk, <a href="https://github.com/nderkach/ebaysdk-python/">get it here</a>.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2013/10/21/how-to-setup-a-typical-python-development-environment-on-opensuse/">How to Setup a Typical Python Development Environment on openSUSE</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2013-10-21T00:00:00-07:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>21</span><span class='date-suffix'>st</span>, <span class='date-year'>2013</span></span> <span class='time'>12:00 am</span></time>
+        
+           | <a href="/blog/2013/10/21/how-to-setup-a-typical-python-development-environment-on-opensuse/#disqus_thread"
+             data-disqus-identifier="http://nderkach.github.io/blog/2013/10/21/how-to-setup-a-typical-python-development-environment-on-opensuse/">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>It&rsquo;s been a long time since I&rsquo;ve last installed a Linux distro on my desktop, more than 3 years I&rsquo;d say. Naturally I was quiet excited to watch the breakthrough it made over that time. Since my previous macbook air kicked the calendar, I figured time has come to give openSUSE a spin.</p>
+
+<p>Frankly I was quiet impressed that everything went pretty smooth, apart from the fact that I had to configure my BIOS to disable UEFI Secure Mode and that double-finger scrolling didn&rsquo;t work on my touchpad out of the box (yikes!)</p>
+
+<p>I wanted to build a python app using Flask as a web-framework and I&rsquo;m using Heroku for deployment. Here is how I went ahead an setup everything required to get started.
+Ah yes, I&rsquo;m using python3 and so should you.</p>
+
+<p>I&rsquo;ve installed python and pip with zypper (<code>sudo zypper install</code>)</p>
+
+<ul>
+<li>python3</li>
+<li>python3-pip</li>
+</ul>
+
+
+<p>I love using zsh, because it&rsquo;s <a href="http://fendrich.se/blog/2012/09/28/no">awesome</a></p>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">install zsh
+ sudo zypper install zsh
+ <span class="c"># make zsh your login shell</span>
+ chsh -s <span class="k">$(</span>which zsh<span class="k">)</span>
+ <span class="c"># relogin to make it work</span></code></pre></div>
+
+
+<p>Then I need to setup my <a href="https://toolbelt.heroku.com/standalone">heroku toolbelt</a>:</p>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">wget -qO- https://toolbelt.heroku.com/install.sh <span class="p">|</span> sh</code></pre></div>
+
+
+<p>Adjust your path to use heroku tools, but instead of adjusting ~/.profile use ~/.zshrc or ~/.zshenv</p>
+
+<p>go ahead and setup your heroku tools as described in the guide, but don&rsquo;t forget to install Ruby first. Also, don&rsquo;t forget to add your ssh key in your heroku account settings.</p>
+
+<p>Here is the catch though: for <a href="https://help.heroku.com/tickets/101227">some reason</a> foreman (used for local debugging) wasn&rsquo;t included in the bundle, so you have to run</p>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">sudo gem install foreman
+foreman1.9 start</code></pre></div>
+
+
+<p>to start it.</p>
+
+<p>And yes, be a good chap and install <a href="http://docs.python-guide.org/en/latest/dev/virtualenvs/">virtualenv</a> as well:</p>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">sudo pip-3.3 install virtualenv
+<span class="c"># cd to you app </span>
+virtualenv-3.3 venv --distribute
+<span class="nb">source </span>venv/bin/activate</code></pre></div>
+
+
+<p>Now, HACK.</p>
+</div>
+  
+  
+
+
+    </article>
+  
   <div class="pagination">
     
     <a href="/blog/archives">Blog Archives</a>
@@ -78,7 +648,56 @@
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
     
+      <li class="post">
+        <a href="/blog/2013/12/03/basic-http-authentication-with-forms/">Basic HTTP Authentication With Forms</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/11/24/hacking-couchsurfing-dot-org-api-part-2/">Hacking couchsurfing.org API Part 2</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/11/17/hacking-couchsurfing-dot-org-api/">Hacking couchsurfing.org API</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/10/27/things-ive-learned-porting-ebay-sdk-to-python-3/">Things I&#8217;ve Learned Porting Ebay SDK to Python 3</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/10/21/how-to-setup-a-typical-python-development-environment-on-opensuse/">How to Setup a Typical Python Development Environment on openSUSE</a>
+      </li>
+    
   </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating&#8230;</li>
+  </ul>
+  
+  <a href="https://github.com/nderkach">@nderkach</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'nderkach',
+            count: 5,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
 </section>
 
 
@@ -91,12 +710,25 @@
     </div>
   </div>
   <footer role="contentinfo"><p>
-  Copyright &copy; 2014 - Your Name -
+  Copyright &copy; 2014 - Nikolay Derkach -
   <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
 </p>
 
 </footer>
   
+
+<script type="text/javascript">
+      var disqus_shortname = 'nderkach';
+      
+        
+        var disqus_script = 'count.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
 
 
 
