@@ -4,7 +4,11 @@
   <title><![CDATA[Category: Api | Nikolay Derkach's hacking adventures]]></title>
   <link href="http://nderkach.github.io/blog/categories/api/atom.xml" rel="self"/>
   <link href="http://nderkach.github.io/"/>
+<<<<<<< HEAD
   <updated>2015-01-21T11:57:44+08:00</updated>
+=======
+  <updated>2014-09-26T15:07:06-07:00</updated>
+>>>>>>> aef13f24e664d80bc20c615b9bfb8ed1c901f2e9
   <id>http://nderkach.github.io/</id>
   <author>
     <name><![CDATA[Nikolay Derkach]]></name>
@@ -14,6 +18,7 @@
 
   
   <entry>
+<<<<<<< HEAD
     <title type="html"><![CDATA[Using Flickr API for Beautiful Landmark Photos]]></title>
     <link href="http://nderkach.github.io/blog/2015/01/20/using-flickr-api-for-beautiful-landmark-photos/"/>
     <updated>2015-01-20T14:01:44+08:00</updated>
@@ -46,6 +51,11 @@ api_sig=API_SIG
     <title type="html"><![CDATA[Hacking couchsurfing.org API Part 2]]></title>
     <link href="http://nderkach.github.io/blog/2013/11/24/hacking-couchsurfing-dot-org-api-part-2/"/>
     <updated>2013-11-24T21:51:00+08:00</updated>
+=======
+    <title type="html"><![CDATA[Hacking couchsurfing.org API Part 2]]></title>
+    <link href="http://nderkach.github.io/blog/2013/11/24/hacking-couchsurfing-dot-org-api-part-2/"/>
+    <updated>2013-11-24T21:51:00-08:00</updated>
+>>>>>>> aef13f24e664d80bc20c615b9bfb8ed1c901f2e9
     <id>http://nderkach.github.io/blog/2013/11/24/hacking-couchsurfing-dot-org-api-part-2</id>
     <content type="html"><![CDATA[<p>This is a follow-up for my <a href="/blog/2013/11/17/hacking-couchsurfing-dot-org-api/">previous article</a>. To remind you, I&rsquo;ve created a web app <a href="http://couchrequests.com">http://couchrequests.com</a> which extends functionality of <a href="http://couchsurfing.org">http://couchsurfing.org</a> by accessing their private API.</p>
 
@@ -94,7 +104,11 @@ api_sig=API_SIG
   <entry>
     <title type="html"><![CDATA[Hacking couchsurfing.org API]]></title>
     <link href="http://nderkach.github.io/blog/2013/11/17/hacking-couchsurfing-dot-org-api/"/>
+<<<<<<< HEAD
     <updated>2013-11-17T20:00:00+08:00</updated>
+=======
+    <updated>2013-11-17T20:00:00-08:00</updated>
+>>>>>>> aef13f24e664d80bc20c615b9bfb8ed1c901f2e9
     <id>http://nderkach.github.io/blog/2013/11/17/hacking-couchsurfing-dot-org-api</id>
     <content type="html"><![CDATA[<p>Traveling is my passion and I&rsquo;m an huge fan of <a href="http://couchsurfing.org">couchsurfing</a>. Couchsurfing is a global community of travelers, where you can find a place to stay or share you own home with other travelers. On top of that couchsurfing helps you to have genuine traveling experiences while interacting with locals. Here is <a href="https://www.couchsurfing.org/n/how-it-works">how it works</a>. Hell, I&rsquo;ve met some of the most awesome people in the world and made lots of friends though this community.</p>
 
