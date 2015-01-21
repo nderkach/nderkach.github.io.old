@@ -4,11 +4,7 @@
   <title><![CDATA[Nikolay Derkach's hacking adventures]]></title>
   <link href="http://nderkach.github.io/atom.xml" rel="self"/>
   <link href="http://nderkach.github.io/"/>
-<<<<<<< HEAD
-  <updated>2015-01-21T11:57:44+08:00</updated>
-=======
-  <updated>2014-09-26T15:07:06-07:00</updated>
->>>>>>> aef13f24e664d80bc20c615b9bfb8ed1c901f2e9
+  <updated>2015-01-21T12:01:35+08:00</updated>
   <id>http://nderkach.github.io/</id>
   <author>
     <name><![CDATA[Nikolay Derkach]]></name>
@@ -18,7 +14,6 @@
 
   
   <entry>
-<<<<<<< HEAD
     <title type="html"><![CDATA[Using Flickr API for Beautiful Landmark Photos]]></title>
     <link href="http://nderkach.github.io/blog/2015/01/20/using-flickr-api-for-beautiful-landmark-photos/"/>
     <updated>2015-01-20T14:01:44+08:00</updated>
@@ -60,11 +55,6 @@
     <title type="html"><![CDATA[Basic HTTP Authentication With Forms]]></title>
     <link href="http://nderkach.github.io/blog/2013/12/03/basic-http-authentication-with-forms/"/>
     <updated>2013-12-03T10:21:00+08:00</updated>
-=======
-    <title type="html"><![CDATA[Basic HTTP Authentication With Forms]]></title>
-    <link href="http://nderkach.github.io/blog/2013/12/03/basic-http-authentication-with-forms/"/>
-    <updated>2013-12-03T10:21:00-08:00</updated>
->>>>>>> aef13f24e664d80bc20c615b9bfb8ed1c901f2e9
     <id>http://nderkach.github.io/blog/2013/12/03/basic-http-authentication-with-forms</id>
     <content type="html"><![CDATA[<p>Here is a fairly simple trick, how to use basic HTTP authentication (yes, the one where you have an ugly popup window) with HTML forms. I&rsquo;m actually quiet surprised not a lot of developers are aware of it, as it&rsquo;s quiet neat.</p>
 
@@ -265,11 +255,7 @@ Simple enough, right? Here is how it&rsquo;s working under the hood.</p>
   <entry>
     <title type="html"><![CDATA[Hacking couchsurfing.org API Part 2]]></title>
     <link href="http://nderkach.github.io/blog/2013/11/24/hacking-couchsurfing-dot-org-api-part-2/"/>
-<<<<<<< HEAD
     <updated>2013-11-24T21:51:00+08:00</updated>
-=======
-    <updated>2013-11-24T21:51:00-08:00</updated>
->>>>>>> aef13f24e664d80bc20c615b9bfb8ed1c901f2e9
     <id>http://nderkach.github.io/blog/2013/11/24/hacking-couchsurfing-dot-org-api-part-2</id>
     <content type="html"><![CDATA[<p>This is a follow-up for my <a href="http://nderkach.github.io/blog/2013/11/17/hacking-couchsurfing-dot-org-api/">previous article</a>. To remind you, I&rsquo;ve created a web app <a href="http://couchrequests.com">http://couchrequests.com</a> which extends functionality of <a href="http://couchsurfing.org">http://couchsurfing.org</a> by accessing their private API.</p>
 
@@ -318,11 +304,7 @@ Simple enough, right? Here is how it&rsquo;s working under the hood.</p>
   <entry>
     <title type="html"><![CDATA[Hacking couchsurfing.org API]]></title>
     <link href="http://nderkach.github.io/blog/2013/11/17/hacking-couchsurfing-dot-org-api/"/>
-<<<<<<< HEAD
     <updated>2013-11-17T20:00:00+08:00</updated>
-=======
-    <updated>2013-11-17T20:00:00-08:00</updated>
->>>>>>> aef13f24e664d80bc20c615b9bfb8ed1c901f2e9
     <id>http://nderkach.github.io/blog/2013/11/17/hacking-couchsurfing-dot-org-api</id>
     <content type="html"><![CDATA[<p>Traveling is my passion and I&rsquo;m an huge fan of <a href="http://couchsurfing.org">couchsurfing</a>. Couchsurfing is a global community of travelers, where you can find a place to stay or share you own home with other travelers. On top of that couchsurfing helps you to have genuine traveling experiences while interacting with locals. Here is <a href="https://www.couchsurfing.org/n/how-it-works">how it works</a>. Hell, I&rsquo;ve met some of the most awesome people in the world and made lots of friends though this community.</p>
 
@@ -388,11 +370,7 @@ Also, every time my server gets such a request I have to authenticate the user t
   <entry>
     <title type="html"><![CDATA[Things I've Learned Porting Ebay SDK to Python 3]]></title>
     <link href="http://nderkach.github.io/blog/2013/10/27/things-ive-learned-porting-ebay-sdk-to-python-3/"/>
-<<<<<<< HEAD
     <updated>2013-10-27T00:00:00+08:00</updated>
-=======
-    <updated>2013-10-27T00:00:00-07:00</updated>
->>>>>>> aef13f24e664d80bc20c615b9bfb8ed1c901f2e9
     <id>http://nderkach.github.io/blog/2013/10/27/things-ive-learned-porting-ebay-sdk-to-python-3</id>
     <content type="html"><![CDATA[<p>One day I&rsquo;ve decided to play around with Ebay a little bit (nothing illegal i swear). And since I love python my first step was to find if there is an Python SDK available somewhere. And indeed there was <a href="https://go.developer.ebay.com/developers/ebay/product-updates/announcing-ebay-open-source-python-sdk">one</a>. Had a look at the corresponding <a href="https://github.com/timotheus/ebaysdk-python">github repository</a> it seems it&rsquo;s being maintained as well. Great! Well, not really - it doesn&rsquo;t work with Python 3. Oh well, time to get my hands dirty.</p>
 
@@ -461,11 +439,7 @@ The error looks as follows:</p>
   <entry>
     <title type="html"><![CDATA[How to Setup a Typical Python Development Environment on openSUSE]]></title>
     <link href="http://nderkach.github.io/blog/2013/10/21/how-to-setup-a-typical-python-development-environment-on-opensuse/"/>
-<<<<<<< HEAD
     <updated>2013-10-21T00:00:00+08:00</updated>
-=======
-    <updated>2013-10-21T00:00:00-07:00</updated>
->>>>>>> aef13f24e664d80bc20c615b9bfb8ed1c901f2e9
     <id>http://nderkach.github.io/blog/2013/10/21/how-to-setup-a-typical-python-development-environment-on-opensuse</id>
     <content type="html"><![CDATA[<p>It&rsquo;s been a long time since I&rsquo;ve last installed a Linux distro on my desktop, more than 3 years I&rsquo;d say. Naturally I was quiet excited to watch the breakthrough it made over that time. Since my previous macbook air kicked the calendar, I figured time has come to give openSUSE a spin.</p>
 
