@@ -1,0 +1,298 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Using Flickr API for Beautiful Landmark Photos - Nikolay Derkach&#8217;s hacking adventures</title>
+  <meta name="author" content="Nikolay Derkach">
+
+  
+  <meta name="description" content="While building Traffle (a social travel iOS app), I&rsquo;ve stumbled upon a problem: how to generate high-quality landmark photos for a particular &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://nderkach.github.io/blog/2015/01/20/using-flickr-api-for-beautiful-landmark-photos">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="Nikolay Derkach's hacking adventures" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-37086340-3']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">Nikolay Derkach&#8217;s hacking adventures</a></h1>
+  
+    <h2>http://nikolayderkach.com</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:nderkach.github.io" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Using Flickr API for Beautiful Landmark Photos</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-01-20T14:01:44+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>20</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>2:01 pm</span></time>
+        
+           | <a href="#disqus_thread"
+             data-disqus-identifier="http://nderkach.github.io">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>While building <a href="http://angel.co/traffle">Traffle</a> (a social travel iOS app), I&rsquo;ve stumbled upon a problem: how to generate high-quality landmark photos for a particular destination. To give you an idea of the kind of pictures I was looking for, check out <a href="https://mobile.yahoo.com/weather">Yahoo! Weather</a>. In Yahoo! Weather image content is curated: the best photos are being handpicked by editors.</p>
+
+<p>Tha app required to create a simple algorithm which produces relevant content. Surely no algorithm can compete with curated content, and I didn&rsquo;t want to spend time implementing a machine learning algorithm, like <a href="http://www.academia.edu/4610174/Exploiting_Flickr_Tags_and_Groups_for_Finding_Landmark_Photos">this one</a>.</p>
+
+<p>Playing around with <a href="https://www.flickr.com/services/api/flickr.photos.search.html">flickr.photos.search</a> I empirically found the optimal combination of accuracy, tags and <a href="http://www.steves-digicams.com/knowledge-center/how-tos/online-sharing-social-networking/what-is-flickr-interestingness.html">interestingness</a>. Here is the API request I came up with:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='http'><span class='line'><span class="err">GET https://api.flickr.com/services/rest/</span>
+</span><span class='line'><span class="err">?accuracy=11&amp;</span>
+</span><span class='line'><span class="err">api_key=API_KEY&amp;</span>
+</span><span class='line'><span class="err">lat=37.7833&amp;lon=-122.4167&amp;</span>
+</span><span class='line'><span class="err">method=flickr.photos.search&amp;</span>
+</span><span class='line'><span class="err">sort=interestingness-desc&amp;</span>
+</span><span class='line'><span class="err">tags=scenic,landmark&amp;</span>
+</span><span class='line'><span class="err">api_sig=API_SIG</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>If you are building an iOS app, I recommend <a href="https://github.com/justinmfischer/core-background">this project</a> to build a nice landmark slide show like this one:</p>
+
+<p><img src="http://cl.ly/image/0W3V3b281g0M/13343.mov.gif" alt="Animation Example" /></p>
+
+<p>Surpisingly, a single call to Flickr API can solve a problem good enough and seems to be a resonable compromise. Yes, it&rsquo;s not perfect, and as much of a perfectionist I am, I think good engineering relies heavily on compromises - good enough now is better that perfect tomorrow. I&rsquo;d argue that selecetion of landmark photos is a very subjective process in iteself, and it could be that the imperfections of this approach actually add a more human touch to the photos. In case of San Francisco, you&rsquo;d not only see the Golden Bridge and Alkatraz, but also ordinary people in coffeeshops and backalleys.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Nikolay Derkach</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-01-20T14:01:44+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>20</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>2:01 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/api/'>api</a>, <a class='category' href='/blog/categories/flickr/'>flickr</a>, <a class='category' href='/blog/categories/ios/'>ios</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://nderkach.github.io/blog/2015/01/20/using-flickr-api-for-beautiful-landmark-photos/" data-via="nderkach" data-counturl="http://nderkach.github.io/blog/2015/01/20/using-flickr-api-for-beautiful-landmark-photos/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2013/12/03/basic-http-authentication-with-forms/" title="Previous Post: Basic HTTP Authentication with forms">&laquo; Basic HTTP Authentication with forms</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2015/01/20/using-flickr-api-for-beautiful-landmark-photos/">Using Flickr API for Beautiful Landmark Photos</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/12/03/basic-http-authentication-with-forms/">Basic HTTP Authentication With Forms</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/11/24/hacking-couchsurfing-dot-org-api-part-2/">Hacking couchsurfing.org API Part 2</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/11/17/hacking-couchsurfing-dot-org-api/">Hacking couchsurfing.org API</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2013/10/27/things-ive-learned-porting-ebay-sdk-to-python-3/">Things I&#8217;ve Learned Porting Ebay SDK to Python 3</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating&#8230;</li>
+  </ul>
+  
+  <a href="https://github.com/nderkach">@nderkach</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'nderkach',
+            count: 5,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2015 - Nikolay Derkach -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'nderkach';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://nderkach.github.io/blog/2015/01/20/using-flickr-api-for-beautiful-landmark-photos/';
+        var disqus_url = 'http://nderkach.github.io/blog/2015/01/20/using-flickr-api-for-beautiful-landmark-photos/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>
