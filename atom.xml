@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Nikolay Derkach's hacking adventures]]></title>
+  <title><![CDATA[hack.]]></title>
   <link href="http://nikolayderkach.com/atom.xml" rel="self"/>
   <link href="http://nikolayderkach.com/"/>
-  <updated>2015-01-22T16:46:19+08:00</updated>
+  <updated>2015-01-22T17:10:29+08:00</updated>
   <id>http://nikolayderkach.com/</id>
   <author>
     <name><![CDATA[Nikolay Derkach]]></name>
