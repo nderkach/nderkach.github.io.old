@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Http | Nikolay Derkach's hacking adventures]]></title>
-  <link href="http://nderkach.github.io/blog/categories/http/atom.xml" rel="self"/>
-  <link href="http://nderkach.github.io/"/>
-  <updated>2015-01-22T15:53:50+08:00</updated>
-  <id>http://nderkach.github.io/</id>
+  <link href="http://nikolayderkach.com/blog/categories/http/atom.xml" rel="self"/>
+  <link href="http://nikolayderkach.com/"/>
+  <updated>2015-01-22T16:39:44+08:00</updated>
+  <id>http://nikolayderkach.com/</id>
   <author>
     <name><![CDATA[Nikolay Derkach]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Basic HTTP Authentication With Forms]]></title>
-    <link href="http://nderkach.github.io/blog/2013/12/03/basic-http-authentication-with-forms/"/>
+    <link href="http://nikolayderkach.com/blog/2013/12/03/basic-http-authentication-with-forms/"/>
     <updated>2013-12-03T10:21:00+08:00</updated>
-    <id>http://nderkach.github.io/blog/2013/12/03/basic-http-authentication-with-forms</id>
+    <id>http://nikolayderkach.com/blog/2013/12/03/basic-http-authentication-with-forms</id>
     <content type="html"><![CDATA[<p>Here is a fairly simple trick, how to use basic HTTP authentication (yes, the one where you have an ugly popup window) with HTML forms. I&rsquo;m actually quiet surprised not a lot of developers are aware of it, as it&rsquo;s quiet neat.</p>
 
 <p>In short, the idea is that you create a form and pass authentication data to your backend.

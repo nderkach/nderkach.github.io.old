@@ -1,4 +1,4 @@
 User-agent: *
 Disallow: 
 
-Sitemap: http://nderkach.github.io/sitemap.xml 
+Sitemap: http://nikolayderkach.com/sitemap.xml 

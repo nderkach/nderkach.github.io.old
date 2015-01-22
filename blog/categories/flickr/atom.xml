@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Flickr | Nikolay Derkach's hacking adventures]]></title>
-  <link href="http://nderkach.github.io/blog/categories/flickr/atom.xml" rel="self"/>
-  <link href="http://nderkach.github.io/"/>
-  <updated>2015-01-22T15:53:50+08:00</updated>
-  <id>http://nderkach.github.io/</id>
+  <link href="http://nikolayderkach.com/blog/categories/flickr/atom.xml" rel="self"/>
+  <link href="http://nikolayderkach.com/"/>
+  <updated>2015-01-22T16:39:44+08:00</updated>
+  <id>http://nikolayderkach.com/</id>
   <author>
     <name><![CDATA[Nikolay Derkach]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Using Flickr API for Beautiful Landmark Photos]]></title>
-    <link href="http://nderkach.github.io/blog/2015/01/20/using-flickr-api-for-beautiful-landmark-photos/"/>
+    <link href="http://nikolayderkach.com/blog/2015/01/20/using-flickr-api-for-beautiful-landmark-photos/"/>
     <updated>2015-01-20T14:01:44+08:00</updated>
-    <id>http://nderkach.github.io/blog/2015/01/20/using-flickr-api-for-beautiful-landmark-photos</id>
+    <id>http://nikolayderkach.com/blog/2015/01/20/using-flickr-api-for-beautiful-landmark-photos</id>
     <content type="html"><![CDATA[<p>While building <a href="http://angel.co/traffle">Traffle</a> (a social travel iOS app), I&rsquo;ve stumbled upon a problem: how to generate high-quality landmark photos for a particular destination. To give you an idea of the kind of pictures I was looking for, check out <a href="https://mobile.yahoo.com/weather">Yahoo! Weather</a>. In Yahoo! Weather image content is curated: the best photos are being handpicked by editors.</p>
 
 <p>Tha app required to create a simple algorithm which produces relevant content. Surely no algorithm can compete with curated content, and I didn&rsquo;t want to spend time implementing a machine learning algorithm, like <a href="http://www.academia.edu/4610174/Exploiting_Flickr_Tags_and_Groups_for_Finding_Landmark_Photos">this one</a>.</p>

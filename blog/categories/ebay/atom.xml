@@ -2,10 +2,10 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title><![CDATA[Category: Ebay | Nikolay Derkach's hacking adventures]]></title>
-  <link href="http://nderkach.github.io/blog/categories/ebay/atom.xml" rel="self"/>
-  <link href="http://nderkach.github.io/"/>
-  <updated>2015-01-22T15:53:50+08:00</updated>
-  <id>http://nderkach.github.io/</id>
+  <link href="http://nikolayderkach.com/blog/categories/ebay/atom.xml" rel="self"/>
+  <link href="http://nikolayderkach.com/"/>
+  <updated>2015-01-22T16:39:44+08:00</updated>
+  <id>http://nikolayderkach.com/</id>
   <author>
     <name><![CDATA[Nikolay Derkach]]></name>
     
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Things I've Learned Porting Ebay SDK to Python 3]]></title>
-    <link href="http://nderkach.github.io/blog/2013/10/27/things-ive-learned-porting-ebay-sdk-to-python-3/"/>
+    <link href="http://nikolayderkach.com/blog/2013/10/27/things-ive-learned-porting-ebay-sdk-to-python-3/"/>
     <updated>2013-10-27T00:00:00+08:00</updated>
-    <id>http://nderkach.github.io/blog/2013/10/27/things-ive-learned-porting-ebay-sdk-to-python-3</id>
+    <id>http://nikolayderkach.com/blog/2013/10/27/things-ive-learned-porting-ebay-sdk-to-python-3</id>
     <content type="html"><![CDATA[<p>One day I&rsquo;ve decided to play around with Ebay a little bit (nothing illegal i swear). And since I love python my first step was to find if there is an Python SDK available somewhere. And indeed there was <a href="https://go.developer.ebay.com/developers/ebay/product-updates/announcing-ebay-open-source-python-sdk">one</a>. Had a look at the corresponding <a href="https://github.com/timotheus/ebaysdk-python">github repository</a> it seems it&rsquo;s being maintained as well. Great! Well, not really - it doesn&rsquo;t work with Python 3. Oh well, time to get my hands dirty.</p>
 
 <p>First thing I did was to run an infamous <a href="http://docs.python.org/2/library/2to3.html">2to3 tool</a>. And frankly it was quiet a help as it&rsquo;s had a great work, especially with those tedious brackets around print statements (but unfortunately not in doctests).</p>
