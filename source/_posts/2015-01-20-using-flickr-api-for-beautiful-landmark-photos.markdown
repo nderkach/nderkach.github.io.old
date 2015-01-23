@@ -4,6 +4,7 @@ title: "Using Flickr API for beautiful landmark photos"
 date: 2015-01-20 14:01:44 +0800
 comments: true
 categories: [api, flickr, ios]
+description: "Using Flickr API for beautiful landmark photos"
 ---
 
 While building [Traffle](http://angel.co/traffle) (a social travel iOS app), I've stumbled upon a problem: how to generate high-quality landmark photos for a particular destination. To give you an idea of the kind of pictures I was looking for, check out [Yahoo! Weather](https://mobile.yahoo.com/weather). In Yahoo! Weather image content is curated: the best photos are being handpicked by editors.

@@ -2,6 +2,7 @@
 layout: post
 title: "How to setup a typical Python development environment on openSUSE"
 categories: [opensuse, python, heroku, zsh, virtualenv, pip]
+description: "How to setup a typical Python development environment on openSUSE"
 comments: true
 ---
 
@@ -37,7 +38,7 @@ Adjust your path to use heroku tools, but instead of adjusting ~/.profile use ~/
 
 go ahead and setup your heroku tools as described in the guide, but don't forget to install Ruby first. Also, don't forget to add your ssh key in your heroku account settings.
 
-Here is the catch though: for [some reason](https://help.heroku.com/tickets/101227) foreman (used for local debugging) wasn't included in the bundle, so you have to run 
+Here is the catch though: for [some reason](https://help.heroku.com/tickets/101227) foreman (used for local debugging) wasn't included in the bundle, so you have to run
 
 {% highlight bash %}
 sudo gem install foreman
@@ -46,11 +47,11 @@ foreman1.9 start
 
 to start it.
 
-And yes, be a good chap and install [virtualenv](http://docs.python-guide.org/en/latest/dev/virtualenvs/) as well: 
+And yes, be a good chap and install [virtualenv](http://docs.python-guide.org/en/latest/dev/virtualenvs/) as well:
 
 {% highlight bash %}
 sudo pip-3.3 install virtualenv
-# cd to you app 
+# cd to you app
 virtualenv-3.3 venv --distribute
 source venv/bin/activate
 {% endhighlight %}

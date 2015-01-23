@@ -2,6 +2,7 @@
 layout: post
 title: "Things I've learned porting Ebay SDK to Python 3"
 categories: [python, python3, ebay, sdk, curl]
+description: "Things I've learned porting Ebay SDK to Python 3"
 comments: true
 ---
 

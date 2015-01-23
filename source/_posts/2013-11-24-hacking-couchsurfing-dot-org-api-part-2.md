@@ -1,7 +1,8 @@
 ---
 layout: post
-title: "Hacking couchsurfing.org API Part 2"
+title: "Hacking couchsurfing.com API Part 2"
 date: 2013-11-24 21:51
+description: "How I hacked couchsurfing.com private API"
 comments: true
 categories: [couchsurfing, python, api, heroku, mongo]
 ---

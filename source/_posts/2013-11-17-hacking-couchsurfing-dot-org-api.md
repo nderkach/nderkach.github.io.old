@@ -1,7 +1,8 @@
 ---
 layout: post
-title: "Hacking couchsurfing.org API"
+title: "Hacking couchsurfing.com API"
 date: 2013-11-17 20:00
+description: "How I hacked couchsurfing.com private API"
 comments: true
 categories: [couchsurfing, python, api]
 ---
@@ -36,7 +37,7 @@ Now, most of the couchrequests are created a week or two, before the planned arr
 
 Then you just parse the JSON response you get and pass the dates to the calendar javascript. I've stubled upon a quiet curious issue on the way though, with python date representation. Apparently parsing a string into a UTC timestamp is not straightforward at all. One should avoid intermediary datetime structure, as it's not timezone aware. Have a look [here](http://aboutsimon.com/2013/06/05/datetime-hell-time-zone-aware-to-unix-timestamp/) fore more details. Here is one of the ways to do it:
 
-```python 
+```python
 
 from calendar import timegm
 import time

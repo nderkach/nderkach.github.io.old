@@ -2,6 +2,7 @@
 layout: post
 title: "Basic HTTP Authentication with forms"
 date: 2013-12-03 10:21
+title: "How to make Basic HTTP Authentication look nice"
 comments: true
 categories: [http, authentication, flask]
 ---
