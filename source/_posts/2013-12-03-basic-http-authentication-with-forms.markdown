@@ -2,7 +2,7 @@
 layout: post
 title: "Basic HTTP Authentication with forms"
 date: 2013-12-03 10:21
-title: "How to make Basic HTTP Authentication look nice"
+description: "How to make Basic HTTP Authentication look nice"
 comments: true
 categories: [http, authentication, flask]
 ---
@@ -11,6 +11,8 @@ Here is a fairly simple trick, how to use basic HTTP authentication (yes, the on
 
 In short, the idea is that you create a form and pass authentication data to your backend.
 Simple enough, right? Here is how it's working under the hood.
+
+<!--more-->
 
 You create a basic HTML for with a submit button:
 

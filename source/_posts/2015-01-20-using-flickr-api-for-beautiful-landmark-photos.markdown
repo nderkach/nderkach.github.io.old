@@ -11,6 +11,8 @@ While building [Traffle](http://angel.co/traffle) (a social travel iOS app), I'v
 
 Tha app required to create a simple algorithm which produces relevant content. Surely no algorithm can compete with curated content, and I didn't want to spend time implementing a machine learning algorithm, like [this one](http://www.academia.edu/4610174/Exploiting_Flickr_Tags_and_Groups_for_Finding_Landmark_Photos).
 
+<!--more-->
+
 Playing around with [flickr.photos.search](https://www.flickr.com/services/api/flickr.photos.search.html) I empirically found the optimal combination of accuracy, tags and [interestingness](http://www.steves-digicams.com/knowledge-center/how-tos/online-sharing-social-networking/what-is-flickr-interestingness.html). Here is the API request I came up with:
 
 ```http

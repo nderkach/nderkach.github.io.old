@@ -13,6 +13,8 @@ Frankly I was quiet impressed that everything went pretty smooth, apart from the
 I wanted to build a python app using Flask as a web-framework and I'm using Heroku for deployment. Here is how I went ahead an setup everything required to get started.
 Ah yes, I'm using python3 and so should you.
 
+<!--more-->
+
 I've installed python and pip with zypper (`sudo zypper install`)
 
 * python3

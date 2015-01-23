@@ -11,6 +11,8 @@ Traveling is my passion and I'm an huge fan of [couchsurfing](http://couchsurfin
 
 I've hosted a lot of travelers myself, much more than I actually surfed yet. Living in one of the major touristic destinations on the French Riviera, I receive an enormous amount of couch requests (sometimes up to a 10 a day during high season). The problem with couchsurfing.org website is that it doesn't really handle such "high-load" cases properly. There is no information about availability of your couch - when you receive a new couchrequest you can't be sure if you already hosting someone those days or not. There has to be a visual representation of your accepted and pending requests, so you can manage it better. And then, if you make your couch availability public, you can avoid unnecessary couch requests which overlap with days when you are unavailable. To have a better idea what I have in mind, have a look at [Airbnb calendar](https://www.airbnb.com/help/question/447).
 
+<!--more-->
+
 Alright then, I've decided to make an app to solve this issue. First thing I've checked was if there is an API for couchsurfing.org somewhere. It turned out there is no public API available. Here is the response I've received from their support team:
 
 {% blockquote %}
@@ -59,7 +61,9 @@ Ah, one more thing. Here is the app:
 
 Check it out (you need a couchsurfing.org account). [Fork it](https://github.com/nderkach/couchsurfing-calendar) on github. Enjoy.
 
-UPD: [Hacking couchsurfing.org API Part 2](/blog/2013/11/17/hacking-couchsurfing-dot-org-api-part-2/)
+UPD: [Hacking couchsurfing.org API Part 2](/hacking-couchsurfing-dot-org-api-part-2/)
+
+UPD2: couchrequests.com was taken down due to a request from Couchsurfing, Inc, more details [here](http://www.toptal.com/back-end/reverse-engineering-the-private-api-hacking-your-couch)
 
 
 

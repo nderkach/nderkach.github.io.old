@@ -11,6 +11,8 @@ This is a follow-up for my [previous article](/blog/2013/11/17/hacking-couchsurf
 
 I've decided to go an extra mile and implement another highly-demanded feature: couch availability calendars embedded in users' profiles. Wouldn't it be just awesome to have such a calendar which is updated automatically?
 
+<!--more-->
+
 So I'd done some research to see which embedding options are actually available in couchsurfing.org profiles. By trial and error I figure out you can use either bbcode or a restricted set of html tags. Luckily ```<a>``` and ```<img>``` tags were available. So here is a solution I came up with: generate a JPG image with my service and embed this link into a profile.
 
 Then I figured I could create a page for every user which displays a calendar for the current month. This page would be public and requires no authentication. Then I could make a screenshot of it and pass it through to a couchsurfing.org profile. Now, I want those snapshots to be more or less up-to-date, but no real-time updates are required. I assumed that most of the users would be satisfied with a refresh interval of one day.
@@ -36,12 +38,12 @@ Users have an option to opt-out from storing their sessions as well.
 
 Also, for those calendar pages I'm making a screenshot of, I've decided to go with a more minimalistic design, as the resulting image embedded into a profile would be rather small, so readability is quiet important. Here is how a user page looks like: <http://www.couchrequests.com/4732279>
 
-Finally, whichever option you'll choose, you'll get a nice popup with the code:
-
-{% img /images/embed_code.png %}
+Finally, whichever option you'll choose, you'll get a nice popup with the code.
 
 So, here you go, I hope you'll enjoy using the [couch availability calendar](http://couchrequests.com) and I'm open for suggestions for new features. Also, the code for the app is available [on github](https://github.com/nderkach/couchsurfing-calendar).
 
 PS: here is how it looks in my profile:
 
 {% img /images/couchsurfing_calendar.png %}
+
+UPD: couchrequests.com was taken down due to a request from Couchsurfing, Inc, but [the story continues](http://www.toptal.com/back-end/reverse-engineering-the-private-api-hacking-your-couch)

@@ -12,6 +12,8 @@ First thing I did was to run an infamous [2to3 tool](http://docs.python.org/2/li
 
 Well the "porting" part itself was pretty smooth and straightforward in fact. The problem was that, well the SDK itself was mostly broken and I had to fix up quiet a lot on my way through.
 
+<!--more-->
+
 Luckily there is an [API testing tool](https://developer.ebay.com/DevZone/build-test/test-tool/), which I could use as reference to form HTTP requests with correct headers and body XML.
 
 Then I've stumbled upon a curious issue with pycurl and io.StringIO when using StringIO as a write callback for curl.
