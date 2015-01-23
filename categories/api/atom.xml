@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Api | hack.]]></title>
   <link href="http://nikolayderkach.com/categories/api/atom.xml" rel="self"/>
   <link href="http://nikolayderkach.com/"/>
-  <updated>2015-01-23T14:28:28+08:00</updated>
+  <updated>2015-01-23T14:45:39+08:00</updated>
   <id>http://nikolayderkach.com/</id>
   <author>
     <name><![CDATA[Nikolay Derkach]]></name>
@@ -21,6 +21,9 @@
     <content type="html"><![CDATA[<p>While building <a href="http://angel.co/traffle">Traffle</a> (a social travel iOS app), I&rsquo;ve stumbled upon a problem: how to generate high-quality landmark photos for a particular destination. To give you an idea of the kind of pictures I was looking for, check out <a href="https://mobile.yahoo.com/weather">Yahoo! Weather</a>. In Yahoo! Weather image content is curated: the best photos are being handpicked by editors.</p>
 
 <p>Tha app required to create a simple algorithm which produces relevant content. Surely no algorithm can compete with curated content, and I didn&rsquo;t want to spend time implementing a machine learning algorithm, like <a href="http://www.academia.edu/4610174/Exploiting_Flickr_Tags_and_Groups_for_Finding_Landmark_Photos">this one</a>.</p>
+
+<!--more-->
+
 
 <p>Playing around with <a href="https://www.flickr.com/services/api/flickr.photos.search.html">flickr.photos.search</a> I empirically found the optimal combination of accuracy, tags and <a href="http://www.steves-digicams.com/knowledge-center/how-tos/online-sharing-social-networking/what-is-flickr-interestingness.html">interestingness</a>. Here is the API request I came up with:</p>
 
@@ -51,6 +54,9 @@ api_sig=API_SIG
 
 <p>I&rsquo;ve decided to go an extra mile and implement another highly-demanded feature: couch availability calendars embedded in users&#8217; profiles. Wouldn&rsquo;t it be just awesome to have such a calendar which is updated automatically?</p>
 
+<!--more-->
+
+
 <p>So I&rsquo;d done some research to see which embedding options are actually available in couchsurfing.org profiles. By trial and error I figure out you can use either bbcode or a restricted set of html tags. Luckily <code>&lt;a&gt;</code> and <code>&lt;img&gt;</code> tags were available. So here is a solution I came up with: generate a JPG image with my service and embed this link into a profile.</p>
 
 <p>Then I figured I could create a page for every user which displays a calendar for the current month. This page would be public and requires no authentication. Then I could make a screenshot of it and pass it through to a couchsurfing.org profile. Now, I want those snapshots to be more or less up-to-date, but no real-time updates are required. I assumed that most of the users would be satisfied with a refresh interval of one day.</p>
@@ -79,15 +85,15 @@ api_sig=API_SIG
 
 <p>Also, for those calendar pages I&rsquo;m making a screenshot of, I&rsquo;ve decided to go with a more minimalistic design, as the resulting image embedded into a profile would be rather small, so readability is quiet important. Here is how a user page looks like: <a href="http://www.couchrequests.com/4732279">http://www.couchrequests.com/4732279</a></p>
 
-<p>Finally, whichever option you&rsquo;ll choose, you&rsquo;ll get a nice popup with the code:</p>
-
-<p><img src="/images/embed_code.png"></p>
+<p>Finally, whichever option you&rsquo;ll choose, you&rsquo;ll get a nice popup with the code.</p>
 
 <p>So, here you go, I hope you&rsquo;ll enjoy using the <a href="http://couchrequests.com">couch availability calendar</a> and I&rsquo;m open for suggestions for new features. Also, the code for the app is available <a href="https://github.com/nderkach/couchsurfing-calendar">on github</a>.</p>
 
 <p>PS: here is how it looks in my profile:</p>
 
 <p><img src="/images/couchsurfing_calendar.png"></p>
+
+<p>UPD: couchrequests.com was taken down due to a request from Couchsurfing, Inc, but <a href="http://www.toptal.com/back-end/reverse-engineering-the-private-api-hacking-your-couch">the story continues</a></p>
 ]]></content>
   </entry>
   
@@ -99,6 +105,9 @@ api_sig=API_SIG
     <content type="html"><![CDATA[<p>Traveling is my passion and I&rsquo;m an huge fan of <a href="http://couchsurfing.org">couchsurfing</a>. Couchsurfing is a global community of travelers, where you can find a place to stay or share you own home with other travelers. On top of that couchsurfing helps you to have genuine traveling experiences while interacting with locals. Here is <a href="https://www.couchsurfing.org/n/how-it-works">how it works</a>. Hell, I&rsquo;ve met some of the most awesome people in the world and made lots of friends though this community.</p>
 
 <p>I&rsquo;ve hosted a lot of travelers myself, much more than I actually surfed yet. Living in one of the major touristic destinations on the French Riviera, I receive an enormous amount of couch requests (sometimes up to a 10 a day during high season). The problem with couchsurfing.org website is that it doesn&rsquo;t really handle such &ldquo;high-load&rdquo; cases properly. There is no information about availability of your couch - when you receive a new couchrequest you can&rsquo;t be sure if you already hosting someone those days or not. There has to be a visual representation of your accepted and pending requests, so you can manage it better. And then, if you make your couch availability public, you can avoid unnecessary couch requests which overlap with days when you are unavailable. To have a better idea what I have in mind, have a look at <a href="https://www.airbnb.com/help/question/447">Airbnb calendar</a>.</p>
+
+<!--more-->
+
 
 <p>Alright then, I&rsquo;ve decided to make an app to solve this issue. First thing I&rsquo;ve checked was if there is an API for couchsurfing.org somewhere. It turned out there is no public API available. Here is the response I&rsquo;ve received from their support team:</p>
 
@@ -143,7 +152,9 @@ Also, every time my server gets such a request I have to authenticate the user t
 
 <p>Check it out (you need a couchsurfing.org account). <a href="https://github.com/nderkach/couchsurfing-calendar">Fork it</a> on github. Enjoy.</p>
 
-<p>UPD: <a href="/blog/2013/11/17/hacking-couchsurfing-dot-org-api-part-2/">Hacking couchsurfing.org API Part 2</a></p>
+<p>UPD: <a href="/hacking-couchsurfing-dot-org-api-part-2/">Hacking couchsurfing.org API Part 2</a></p>
+
+<p>UPD2: couchrequests.com was taken down due to a request from Couchsurfing, Inc, more details <a href="http://www.toptal.com/back-end/reverse-engineering-the-private-api-hacking-your-couch">here</a></p>
 ]]></content>
   </entry>
   

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Http | hack.]]></title>
   <link href="http://nikolayderkach.com/categories/http/atom.xml" rel="self"/>
   <link href="http://nikolayderkach.com/"/>
-  <updated>2015-01-23T14:28:28+08:00</updated>
+  <updated>2015-01-23T14:45:39+08:00</updated>
   <id>http://nikolayderkach.com/</id>
   <author>
     <name><![CDATA[Nikolay Derkach]]></name>
@@ -14,7 +14,7 @@
 
   
   <entry>
-    <title type="html"><![CDATA[How to Make Basic HTTP Authentication Look Nice]]></title>
+    <title type="html"><![CDATA[Basic HTTP Authentication With Forms]]></title>
     <link href="http://nikolayderkach.com/basic-http-authentication-with-forms/"/>
     <updated>2013-12-03T10:21:00+08:00</updated>
     <id>http://nikolayderkach.com/basic-http-authentication-with-forms</id>
@@ -22,6 +22,9 @@
 
 <p>In short, the idea is that you create a form and pass authentication data to your backend.
 Simple enough, right? Here is how it&rsquo;s working under the hood.</p>
+
+<!--more-->
+
 
 <p>You create a basic HTML for with a submit button:</p>
 

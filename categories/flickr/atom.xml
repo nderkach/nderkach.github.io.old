@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Flickr | hack.]]></title>
   <link href="http://nikolayderkach.com/categories/flickr/atom.xml" rel="self"/>
   <link href="http://nikolayderkach.com/"/>
-  <updated>2015-01-23T14:28:28+08:00</updated>
+  <updated>2015-01-23T14:45:39+08:00</updated>
   <id>http://nikolayderkach.com/</id>
   <author>
     <name><![CDATA[Nikolay Derkach]]></name>
@@ -21,6 +21,9 @@
     <content type="html"><![CDATA[<p>While building <a href="http://angel.co/traffle">Traffle</a> (a social travel iOS app), I&rsquo;ve stumbled upon a problem: how to generate high-quality landmark photos for a particular destination. To give you an idea of the kind of pictures I was looking for, check out <a href="https://mobile.yahoo.com/weather">Yahoo! Weather</a>. In Yahoo! Weather image content is curated: the best photos are being handpicked by editors.</p>
 
 <p>Tha app required to create a simple algorithm which produces relevant content. Surely no algorithm can compete with curated content, and I didn&rsquo;t want to spend time implementing a machine learning algorithm, like <a href="http://www.academia.edu/4610174/Exploiting_Flickr_Tags_and_Groups_for_Finding_Landmark_Photos">this one</a>.</p>
+
+<!--more-->
+
 
 <p>Playing around with <a href="https://www.flickr.com/services/api/flickr.photos.search.html">flickr.photos.search</a> I empirically found the optimal combination of accuracy, tags and <a href="http://www.steves-digicams.com/knowledge-center/how-tos/online-sharing-social-networking/what-is-flickr-interestingness.html">interestingness</a>. Here is the API request I came up with:</p>
 

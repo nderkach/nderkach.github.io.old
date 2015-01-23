@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Python3 | hack.]]></title>
   <link href="http://nikolayderkach.com/categories/python3/atom.xml" rel="self"/>
   <link href="http://nikolayderkach.com/"/>
-  <updated>2015-01-23T14:28:28+08:00</updated>
+  <updated>2015-01-23T14:45:39+08:00</updated>
   <id>http://nikolayderkach.com/</id>
   <author>
     <name><![CDATA[Nikolay Derkach]]></name>
@@ -23,6 +23,9 @@
 <p>First thing I did was to run an infamous <a href="http://docs.python.org/2/library/2to3.html">2to3 tool</a>. And frankly it was quiet a help as it&rsquo;s had a great work, especially with those tedious brackets around print statements (but unfortunately not in doctests).</p>
 
 <p>Well the &ldquo;porting&rdquo; part itself was pretty smooth and straightforward in fact. The problem was that, well the SDK itself was mostly broken and I had to fix up quiet a lot on my way through.</p>
+
+<!--more-->
+
 
 <p>Luckily there is an <a href="https://developer.ebay.com/DevZone/build-test/test-tool/">API testing tool</a>, which I could use as reference to form HTTP requests with correct headers and body XML.</p>
 

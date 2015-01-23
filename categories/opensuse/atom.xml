@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Opensuse | hack.]]></title>
   <link href="http://nikolayderkach.com/categories/opensuse/atom.xml" rel="self"/>
   <link href="http://nikolayderkach.com/"/>
-  <updated>2015-01-23T14:28:28+08:00</updated>
+  <updated>2015-01-23T14:45:39+08:00</updated>
   <id>http://nikolayderkach.com/</id>
   <author>
     <name><![CDATA[Nikolay Derkach]]></name>
@@ -24,6 +24,9 @@
 
 <p>I wanted to build a python app using Flask as a web-framework and I&rsquo;m using Heroku for deployment. Here is how I went ahead an setup everything required to get started.
 Ah yes, I&rsquo;m using python3 and so should you.</p>
+
+<!--more-->
+
 
 <p>I&rsquo;ve installed python and pip with zypper (<code>sudo zypper install</code>)</p>
 
