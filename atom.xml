@@ -4,7 +4,7 @@
   <title><![CDATA[hack.]]></title>
   <link href="http://nikolayderkach.com/atom.xml" rel="self"/>
   <link href="http://nikolayderkach.com/"/>
-  <updated>2015-01-22T17:10:29+08:00</updated>
+  <updated>2015-01-23T13:16:51+08:00</updated>
   <id>http://nikolayderkach.com/</id>
   <author>
     <name><![CDATA[Nikolay Derkach]]></name>
@@ -15,9 +15,9 @@
   
   <entry>
     <title type="html"><![CDATA[Using Flickr API for Beautiful Landmark Photos]]></title>
-    <link href="http://nikolayderkach.com/blog/2015/01/20/using-flickr-api-for-beautiful-landmark-photos/"/>
+    <link href="http://nikolayderkach.com/using-flickr-api-for-beautiful-landmark-photos/"/>
     <updated>2015-01-20T14:01:44+08:00</updated>
-    <id>http://nikolayderkach.com/blog/2015/01/20/using-flickr-api-for-beautiful-landmark-photos</id>
+    <id>http://nikolayderkach.com/using-flickr-api-for-beautiful-landmark-photos</id>
     <content type="html"><![CDATA[<p>While building <a href="http://angel.co/traffle">Traffle</a> (a social travel iOS app), I&rsquo;ve stumbled upon a problem: how to generate high-quality landmark photos for a particular destination. To give you an idea of the kind of pictures I was looking for, check out <a href="https://mobile.yahoo.com/weather">Yahoo! Weather</a>. In Yahoo! Weather image content is curated: the best photos are being handpicked by editors.</p>
 
 <p>Tha app required to create a simple algorithm which produces relevant content. Surely no algorithm can compete with curated content, and I didn&rsquo;t want to spend time implementing a machine learning algorithm, like <a href="http://www.academia.edu/4610174/Exploiting_Flickr_Tags_and_Groups_for_Finding_Landmark_Photos">this one</a>.</p>
@@ -53,9 +53,9 @@
   
   <entry>
     <title type="html"><![CDATA[Basic HTTP Authentication With Forms]]></title>
-    <link href="http://nikolayderkach.com/blog/2013/12/03/basic-http-authentication-with-forms/"/>
+    <link href="http://nikolayderkach.com/basic-http-authentication-with-forms/"/>
     <updated>2013-12-03T10:21:00+08:00</updated>
-    <id>http://nikolayderkach.com/blog/2013/12/03/basic-http-authentication-with-forms</id>
+    <id>http://nikolayderkach.com/basic-http-authentication-with-forms</id>
     <content type="html"><![CDATA[<p>Here is a fairly simple trick, how to use basic HTTP authentication (yes, the one where you have an ugly popup window) with HTML forms. I&rsquo;m actually quiet surprised not a lot of developers are aware of it, as it&rsquo;s quiet neat.</p>
 
 <p>In short, the idea is that you create a form and pass authentication data to your backend.
@@ -254,9 +254,9 @@ Simple enough, right? Here is how it&rsquo;s working under the hood.</p>
   
   <entry>
     <title type="html"><![CDATA[Hacking couchsurfing.org API Part 2]]></title>
-    <link href="http://nikolayderkach.com/blog/2013/11/24/hacking-couchsurfing-dot-org-api-part-2/"/>
+    <link href="http://nikolayderkach.com/hacking-couchsurfing-dot-org-api-part-2/"/>
     <updated>2013-11-24T21:51:00+08:00</updated>
-    <id>http://nikolayderkach.com/blog/2013/11/24/hacking-couchsurfing-dot-org-api-part-2</id>
+    <id>http://nikolayderkach.com/hacking-couchsurfing-dot-org-api-part-2</id>
     <content type="html"><![CDATA[<p>This is a follow-up for my <a href="http://nikolayderkach.com/blog/2013/11/17/hacking-couchsurfing-dot-org-api/">previous article</a>. To remind you, I&rsquo;ve created a web app <a href="http://couchrequests.com">http://couchrequests.com</a> which extends functionality of <a href="http://couchsurfing.org">http://couchsurfing.org</a> by accessing their private API.</p>
 
 <p>I&rsquo;ve decided to go an extra mile and implement another highly-demanded feature: couch availability calendars embedded in users&#8217; profiles. Wouldn&rsquo;t it be just awesome to have such a calendar which is updated automatically?</p>
@@ -303,9 +303,9 @@ Simple enough, right? Here is how it&rsquo;s working under the hood.</p>
   
   <entry>
     <title type="html"><![CDATA[Hacking couchsurfing.org API]]></title>
-    <link href="http://nikolayderkach.com/blog/2013/11/17/hacking-couchsurfing-dot-org-api/"/>
+    <link href="http://nikolayderkach.com/hacking-couchsurfing-dot-org-api/"/>
     <updated>2013-11-17T20:00:00+08:00</updated>
-    <id>http://nikolayderkach.com/blog/2013/11/17/hacking-couchsurfing-dot-org-api</id>
+    <id>http://nikolayderkach.com/hacking-couchsurfing-dot-org-api</id>
     <content type="html"><![CDATA[<p>Traveling is my passion and I&rsquo;m an huge fan of <a href="http://couchsurfing.org">couchsurfing</a>. Couchsurfing is a global community of travelers, where you can find a place to stay or share you own home with other travelers. On top of that couchsurfing helps you to have genuine traveling experiences while interacting with locals. Here is <a href="https://www.couchsurfing.org/n/how-it-works">how it works</a>. Hell, I&rsquo;ve met some of the most awesome people in the world and made lots of friends though this community.</p>
 
 <p>I&rsquo;ve hosted a lot of travelers myself, much more than I actually surfed yet. Living in one of the major touristic destinations on the French Riviera, I receive an enormous amount of couch requests (sometimes up to a 10 a day during high season). The problem with couchsurfing.org website is that it doesn&rsquo;t really handle such &ldquo;high-load&rdquo; cases properly. There is no information about availability of your couch - when you receive a new couchrequest you can&rsquo;t be sure if you already hosting someone those days or not. There has to be a visual representation of your accepted and pending requests, so you can manage it better. And then, if you make your couch availability public, you can avoid unnecessary couch requests which overlap with days when you are unavailable. To have a better idea what I have in mind, have a look at <a href="https://www.airbnb.com/help/question/447">Airbnb calendar</a>.</p>
@@ -369,9 +369,9 @@ Also, every time my server gets such a request I have to authenticate the user t
   
   <entry>
     <title type="html"><![CDATA[Things I've Learned Porting Ebay SDK to Python 3]]></title>
-    <link href="http://nikolayderkach.com/blog/2013/10/27/things-ive-learned-porting-ebay-sdk-to-python-3/"/>
+    <link href="http://nikolayderkach.com/things-ive-learned-porting-ebay-sdk-to-python-3/"/>
     <updated>2013-10-27T00:00:00+08:00</updated>
-    <id>http://nikolayderkach.com/blog/2013/10/27/things-ive-learned-porting-ebay-sdk-to-python-3</id>
+    <id>http://nikolayderkach.com/things-ive-learned-porting-ebay-sdk-to-python-3</id>
     <content type="html"><![CDATA[<p>One day I&rsquo;ve decided to play around with Ebay a little bit (nothing illegal i swear). And since I love python my first step was to find if there is an Python SDK available somewhere. And indeed there was <a href="https://go.developer.ebay.com/developers/ebay/product-updates/announcing-ebay-open-source-python-sdk">one</a>. Had a look at the corresponding <a href="https://github.com/timotheus/ebaysdk-python">github repository</a> it seems it&rsquo;s being maintained as well. Great! Well, not really - it doesn&rsquo;t work with Python 3. Oh well, time to get my hands dirty.</p>
 
 <p>First thing I did was to run an infamous <a href="http://docs.python.org/2/library/2to3.html">2to3 tool</a>. And frankly it was quiet a help as it&rsquo;s had a great work, especially with those tedious brackets around print statements (but unfortunately not in doctests).</p>
@@ -438,9 +438,9 @@ The error looks as follows:</p>
   
   <entry>
     <title type="html"><![CDATA[How to Setup a Typical Python Development Environment on openSUSE]]></title>
-    <link href="http://nikolayderkach.com/blog/2013/10/21/how-to-setup-a-typical-python-development-environment-on-opensuse/"/>
+    <link href="http://nikolayderkach.com/how-to-setup-a-typical-python-development-environment-on-opensuse/"/>
     <updated>2013-10-21T00:00:00+08:00</updated>
-    <id>http://nikolayderkach.com/blog/2013/10/21/how-to-setup-a-typical-python-development-environment-on-opensuse</id>
+    <id>http://nikolayderkach.com/how-to-setup-a-typical-python-development-environment-on-opensuse</id>
     <content type="html"><![CDATA[<p>It&rsquo;s been a long time since I&rsquo;ve last installed a Linux distro on my desktop, more than 3 years I&rsquo;d say. Naturally I was quiet excited to watch the breakthrough it made over that time. Since my previous macbook air kicked the calendar, I figured time has come to give openSUSE a spin.</p>
 
 <p>Frankly I was quiet impressed that everything went pretty smooth, apart from the fact that I had to configure my BIOS to disable UEFI Secure Mode and that double-finger scrolling didn&rsquo;t work on my touchpad out of the box (yikes!)</p>

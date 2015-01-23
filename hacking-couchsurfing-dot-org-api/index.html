@@ -1,0 +1,352 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Hacking couchsurfing.org API - hack.</title>
+  <meta name="author" content="Nikolay Derkach">
+
+  
+  <meta name="description" content="Traveling is my passion and I&rsquo;m an huge fan of couchsurfing. Couchsurfing is a global community of travelers, where you can find a place to &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://nikolayderkach.com/hacking-couchsurfing-dot-org-api">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="hack." type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-37086340-3']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">hack.</a></h1>
+  
+    <h2>by Nikolay Derkach</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:nikolayderkach.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Hacking couchsurfing.org API</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2013-11-17T20:00:00+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>17</span><span class='date-suffix'>th</span>, <span class='date-year'>2013</span></span> <span class='time'>8:00 pm</span></time>
+        
+           | <a href="#disqus_thread"
+             data-disqus-identifier="http://nikolayderkach.com">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>Traveling is my passion and I&rsquo;m an huge fan of <a href="http://couchsurfing.org">couchsurfing</a>. Couchsurfing is a global community of travelers, where you can find a place to stay or share you own home with other travelers. On top of that couchsurfing helps you to have genuine traveling experiences while interacting with locals. Here is <a href="https://www.couchsurfing.org/n/how-it-works">how it works</a>. Hell, I&rsquo;ve met some of the most awesome people in the world and made lots of friends though this community.</p>
+
+<p>I&rsquo;ve hosted a lot of travelers myself, much more than I actually surfed yet. Living in one of the major touristic destinations on the French Riviera, I receive an enormous amount of couch requests (sometimes up to a 10 a day during high season). The problem with couchsurfing.org website is that it doesn&rsquo;t really handle such &ldquo;high-load&rdquo; cases properly. There is no information about availability of your couch - when you receive a new couchrequest you can&rsquo;t be sure if you already hosting someone those days or not. There has to be a visual representation of your accepted and pending requests, so you can manage it better. And then, if you make your couch availability public, you can avoid unnecessary couch requests which overlap with days when you are unavailable. To have a better idea what I have in mind, have a look at <a href="https://www.airbnb.com/help/question/447">Airbnb calendar</a>.</p>
+
+<p>Alright then, I&rsquo;ve decided to make an app to solve this issue. First thing I&rsquo;ve checked was if there is an API for couchsurfing.org somewhere. It turned out there is no public API available. Here is the response I&rsquo;ve received from their support team:</p>
+
+<blockquote><p>Unfortunately we have to inform you that our API is not actually public and there are no plans at the moment to make it public.</p></blockquote>
+
+
+<p>Oh well, let&rsquo;s see if we can find a hackaround here.</p>
+
+<p>Fortunately they have an iOS app which uses this private API. I&rsquo;ve decided to setup a proxy with <a href="http://www.charlesproxy.com">Charles</a> to intercept HTTP requests with it. Requests are secured with SSL, but it&rsquo;s not a big deal if you install a root certificate for the proxy on your iPhone. <a href="http://blog.noodlewerk.com/general/tutorial-using-charles-proxy-to-debug-https-communication-between-server-and-ios-apps/">Here</a> you can find a complete guide on how to setup the whole thing. This way I was able to find access points of their private API and figure out their JSON payload format. Also, thanks a bunch to <a href="https://github.com/unRob">Roberto Hidalgo</a> for inspiration - he implemented a simple Ruby interface for the same API.</p>
+
+<p>I&rsquo;ve decided to design the app so that no data is stored on my servers (I respect the privacy of my users). This means that every time you send a request to the backend (every time you refresh the page or change week/month/year view), a query is sent to my couchsurfing python API wrapper, which sends a couple of requests to couchsurfing API. The first one is a POST to authenticate:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>https://api.couchsurfing.org/sessions?username=[]&password=[]</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Then you get a cookie which you can use throughout your session. Another option would be to store users data in the database. Yes, it improves user experience, as you have to wait for the data to be fetched only once, the first time you run the app, and then it is refreshed in the background. But I opted against this option for privacy and storage reasons. The problem with couchsurfing.org API was that there seems to be no way to get all the couchrequests with dates within a certain range, the only option available is to fetch all couchrequests created after a certain day.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>https://api.couchsurfing.org/users/[user_id]/couchrequests/?since=[unix_timestamp]&expand=couchrequests,users</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now, most of the couchrequests are created a week or two, before the planned arrival dates, but occasionally people create those much much beforehand. To take this into account I assumed that no requests are created earlier than 2 months in advance. This is a good enough trade-off between app response time and topicality of the data presented.</p>
+
+<p>Then you just parse the JSON response you get and pass the dates to the calendar javascript. I&rsquo;ve stubled upon a quiet curious issue on the way though, with python date representation. Apparently parsing a string into a UTC timestamp is not straightforward at all. One should avoid intermediary datetime structure, as it&rsquo;s not timezone aware. Have a look <a href="http://aboutsimon.com/2013/06/05/datetime-hell-time-zone-aware-to-unix-timestamp/">here</a> fore more details. Here is one of the ways to do it:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="kn">from</span> <span class="nn">calendar</span> <span class="kn">import</span> <span class="n">timegm</span>
+</span><span class='line'><span class="kn">import</span> <span class="nn">time</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">time_string_with_timezone</span> <span class="o">=</span> <span class="s">&quot;2013-06-05T15:19:10Z&quot;</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">timestamp</span> <span class="o">=</span> <span class="n">timegm</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">time_string_with_timezone</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&#39;Z&#39;</span><span class="p">,</span> <span class="s">&#39;GMT&#39;</span><span class="p">),</span>
+</span><span class='line'>                                            <span class="s">&quot;%Y-%m-</span><span class="si">%d</span><span class="s">T%H:%M:%S%Z&quot;</span><span class="p">))</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>That said, I might actually give <a href="http://crsmithdev.com/arrow/">arrow</a> a shot next time when I need to perform some date/time operations.</p>
+
+<p>Since I&rsquo;m not a frontend hacker-guru-ninja I&rsquo;ve decided to avoid reinventing the wheel and tried to find an html calendar template somewhere. As a huge fan of <a href="http://getbootstrap.com/">Twitter Bootstrap</a> I&rsquo;ve decided to go with awesome <a href="https://github.com/Serhioromano/bootstrap-calendar">Bootstrap Calendar</a> which served all my calendar visualization needs. It works like that: a custom javascript is loaded for every view (year/month/week/day), this script sends a HTTP requests to a specified URL to fetch the data for a given date range. Thus, I just needed to implement the required route in my web framework (I&rsquo;m using <a href="http://flask.pocoo.org/">Flask</a>) to generate JSON, which is being set back to the js library by a HTTP GET.
+Also, every time my server gets such a request I have to authenticate the user to be able to access couchsurfing API using python-couchsurfing. With Flask, using basic HTTP authentication (I&rsquo;ve used <a href="http://flask.pocoo.org/snippets/8/">this</a> as a template). Again, I&rsquo;m not happy about asking for user credentials, as it&rsquo;s major privacy intervention, but there seems to be no other way.</p>
+
+<p>Ah, one more thing. Here is the app:</p>
+
+<p><a href="http://couchrequests.com">http://couchrequests.com</a></p>
+
+<p>Check it out (you need a couchsurfing.org account). <a href="https://github.com/nderkach/couchsurfing-calendar">Fork it</a> on github. Enjoy.</p>
+
+<p>UPD: <a href="/blog/2013/11/17/hacking-couchsurfing-dot-org-api-part-2/">Hacking couchsurfing.org API Part 2</a></p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Nikolay Derkach</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2013-11-17T20:00:00+08:00'><span class='date'><span class='date-month'>Nov</span> <span class='date-day'>17</span><span class='date-suffix'>th</span>, <span class='date-year'>2013</span></span> <span class='time'>8:00 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/categories/api/'>api</a>, <a class='category' href='/categories/couchsurfing/'>couchsurfing</a>, <a class='category' href='/categories/python/'>python</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://nikolayderkach.com/hacking-couchsurfing-dot-org-api/" data-via="nderkach" data-counturl="http://nikolayderkach.com/hacking-couchsurfing-dot-org-api/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/things-ive-learned-porting-ebay-sdk-to-python-3/" title="Previous Post: Things I've learned porting Ebay SDK to Python 3">&laquo; Things I&#8217;ve learned porting Ebay SDK to Python 3</a>
+      
+      
+        <a class="basic-alignment right" href="/hacking-couchsurfing-dot-org-api-part-2/" title="Next Post: Hacking couchsurfing.org API Part 2">Hacking couchsurfing.org API Part 2 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/using-flickr-api-for-beautiful-landmark-photos/">Using Flickr API for Beautiful Landmark Photos</a>
+      </li>
+    
+      <li class="post">
+        <a href="/basic-http-authentication-with-forms/">Basic HTTP Authentication With Forms</a>
+      </li>
+    
+      <li class="post">
+        <a href="/hacking-couchsurfing-dot-org-api-part-2/">Hacking couchsurfing.org API Part 2</a>
+      </li>
+    
+      <li class="post">
+        <a href="/hacking-couchsurfing-dot-org-api/">Hacking couchsurfing.org API</a>
+      </li>
+    
+      <li class="post">
+        <a href="/things-ive-learned-porting-ebay-sdk-to-python-3/">Things I&#8217;ve Learned Porting Ebay SDK to Python 3</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating&#8230;</li>
+  </ul>
+  
+  <a href="https://github.com/nderkach">@nderkach</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'nderkach',
+            count: 5,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+
+<section>
+  <h1>Subscribe</h1>
+  <!-- Begin MailChimp Signup Form -->
+  <div id="mc_embed_signup">
+    <form action="//nikolayderkach.us7.list-manage.com/subscribe/post?u=89b83b635bc800c2093475053&amp;id=a1ae850f78" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+      <div class="mc-field-group">
+  <label for="mce-EMAIL">
+    Get blog updates to your inbox
+  </label>
+  <input type="email" value="" name="EMAIL" class="required email" id="mce-EMAIL" placeholder="Your Email Here">
+      </div>
+      <div id="mce-responses" class="clear">
+  <div class="response" id="mce-error-response" style="display:none"></div>
+  <div class="response" id="mce-success-response" style="display:none"></div>
+      </div>
+      <div class="clear">
+  <input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button">
+      </div>
+    </form>
+  </div>
+  <!--End mc_embed_signup-->
+</section>
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2015 - Nikolay Derkach -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'nderkach';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://nikolayderkach.com/hacking-couchsurfing-dot-org-api/';
+        var disqus_url = 'http://nikolayderkach.com/hacking-couchsurfing-dot-org-api/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

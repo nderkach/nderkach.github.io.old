@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Ebay | hack.]]></title>
+  <link href="http://nikolayderkach.com/categories/ebay/atom.xml" rel="self"/>
+  <link href="http://nikolayderkach.com/"/>
+  <updated>2015-01-23T13:16:51+08:00</updated>
+  <id>http://nikolayderkach.com/</id>
+  <author>
+    <name><![CDATA[Nikolay Derkach]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Things I've Learned Porting Ebay SDK to Python 3]]></title>
+    <link href="http://nikolayderkach.com/things-ive-learned-porting-ebay-sdk-to-python-3/"/>
+    <updated>2013-10-27T00:00:00+08:00</updated>
+    <id>http://nikolayderkach.com/things-ive-learned-porting-ebay-sdk-to-python-3</id>
+    <content type="html"><![CDATA[<p>One day I&rsquo;ve decided to play around with Ebay a little bit (nothing illegal i swear). And since I love python my first step was to find if there is an Python SDK available somewhere. And indeed there was <a href="https://go.developer.ebay.com/developers/ebay/product-updates/announcing-ebay-open-source-python-sdk">one</a>. Had a look at the corresponding <a href="https://github.com/timotheus/ebaysdk-python">github repository</a> it seems it&rsquo;s being maintained as well. Great! Well, not really - it doesn&rsquo;t work with Python 3. Oh well, time to get my hands dirty.</p>
+
+<p>First thing I did was to run an infamous <a href="http://docs.python.org/2/library/2to3.html">2to3 tool</a>. And frankly it was quiet a help as it&rsquo;s had a great work, especially with those tedious brackets around print statements (but unfortunately not in doctests).</p>
+
+<p>Well the &ldquo;porting&rdquo; part itself was pretty smooth and straightforward in fact. The problem was that, well the SDK itself was mostly broken and I had to fix up quiet a lot on my way through.</p>
+
+<p>Luckily there is an <a href="https://developer.ebay.com/DevZone/build-test/test-tool/">API testing tool</a>, which I could use as reference to form HTTP requests with correct headers and body XML.</p>
+
+<p>Then I&rsquo;ve stumbled upon a curious issue with pycurl and io.StringIO when using StringIO as a write callback for curl.
+The error looks as follows:</p>
+
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>pycurl.error: (23, &lsquo;Failed writing body (1457 != 1460)&rsquo;)</span></code></pre></td></tr></table></div></figure></p>
+
+<p>Here is what I&rsquo;ve found in documentation:</p>
+
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>CURLE_WRITE_ERROR (23)&lt;/p>
+</span><span class='line'>
+</span><span class='line'>&lt;p>An error occurred when writing received data to a local file, or an error was returned to libcurl from a write callback.</span></code></pre></td></tr></table></div></figure></p>
+
+<p>That&rsquo;s quiet an ambiguous description right here. Meaning that the issue could be either with a StringIO object or with my implementation of the write callback. I&rsquo;ve tried all the variations. Originally I just tried the following</p>
+
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="bp">self</span><span class="o">.&lt;</span><span class="n">em</span><span class="o">&gt;</span><span class="n">curl</span><span class="o">.</span><span class="n">setopt</span><span class="p">(</span><span class="n">pycurl</span><span class="o">.</span><span class="n">WRITEFUNCTION</span><span class="p">,</span> <span class="bp">self</span><span class="o">.&lt;/</span><span class="n">em</span><span class="o">&gt;</span><span class="n">response_body</span><span class="o">.</span><span class="n">write</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure></p>
+
+<p>where <code>self._response_body</code> is a StringIO. This failed. Then I&rsquo;ve tried to add a lambda as a write callback:</p>
+
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="bp">self</span><span class="o">.&lt;</span><span class="n">em</span><span class="o">&gt;</span><span class="n">curl</span><span class="o">.</span><span class="n">setopt</span><span class="p">(</span><span class="n">pycurl</span><span class="o">.</span><span class="n">WRITEFUNCTION</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">buf</span><span class="p">:</span> <span class="bp">self</span><span class="o">.&lt;/</span><span class="n">em</span><span class="o">&gt;</span><span class="n">response_body</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">buf</span><span class="p">))</span>
+</span></code></pre></td></tr></table></div></figure></p>
+
+<p>Nope, didn&rsquo;t work either. No what did work was to add a real function, such as:</p>
+
+<p><figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">h2</span><span class="o">&gt;</span><span class="n">Callback</span> <span class="n">function</span> <span class="n">invoked</span> <span class="n">when</span> <span class="n">body</span> <span class="n">data</span> <span class="ow">is</span> <span class="n">ready</span><span class="o">&lt;/</span><span class="n">h2</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">def</span> <span class="nf">body</span><span class="p">(</span><span class="n">buf</span><span class="p">):</span>
+</span><span class='line'>    <span class="bp">self</span><span class="o">.</span><span class="n">_response_body</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">buf</span><span class="p">)</span><span class="o">&lt;/</span><span class="n">p</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">h2</span><span class="o">&gt;</span><span class="n">Callback</span> <span class="n">function</span> <span class="n">invoked</span> <span class="n">when</span> <span class="n">header</span> <span class="n">data</span> <span class="ow">is</span> <span class="n">ready</span><span class="o">&lt;/</span><span class="n">h2</span><span class="o">&gt;</span>
+</span><span class='line'>
+</span><span class='line'><span class="o">&lt;</span><span class="n">p</span><span class="o">&gt;</span><span class="k">def</span> <span class="nf">header</span><span class="p">(</span><span class="n">buf</span><span class="p">):</span>
+</span><span class='line'>    <span class="bp">self</span><span class="o">.</span><span class="n">_response_header</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">buf</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure></p>
+
+<p>Well, frankly I could find an explanation why it worked this way only. I&rsquo;ve posted the question on <a href="http://stackoverflow.com/questions/19606447/pycurl-and-io-stringio-pycurl-error-23-failed-writing-body">stackoverflow</a> and I filed a <a href="https://github.com/pycurl/pycurl/issues/51">bug for pycurl</a> as well. Will see&hellip;</p>
+
+<p>Anyway, if you wish to try out python 3 friendly ebay sdk, <a href="https://github.com/nderkach/ebaysdk-python/">get it here</a>.</p>
+]]></content>
+  </entry>
+  
+</feed>

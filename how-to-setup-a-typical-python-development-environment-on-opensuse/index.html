@@ -5,12 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Blog Archive - hack.</title>
+  <title>How to Setup a Typical Python Development Environment on openSUSE - hack.</title>
   <meta name="author" content="Nikolay Derkach">
 
   
-  <meta name="description" content="Blog Archive 2015 Using Flickr API for Beautiful Landmark Photos
-Jan 20 2015 posted in api, flickr, ios 2013 Basic HTTP Authentication With Forms &hellip;">
+  <meta name="description" content="It&rsquo;s been a long time since I&rsquo;ve last installed a Linux distro on my desktop, more than 3 years I&rsquo;d say. Naturally I was quiet &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -19,7 +18,7 @@ Jan 20 2015 posted in api, flickr, ios 2013 Basic HTTP Authentication With Forms
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://nikolayderkach.com/blog/archives">
+  <link rel="canonical" href="http://nikolayderkach.com/how-to-setup-a-typical-python-development-environment-on-opensuse">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="hack." type="application/atom+xml">
@@ -77,109 +76,129 @@ Jan 20 2015 posted in api, flickr, ios 2013 Basic HTTP Authentication With Forms
   <div id="main">
     <div id="content">
       <div>
-<article role="article">
+<article class="hentry" role="article">
   
   <header>
-    <h1 class="entry-title">Blog Archive</h1>
+    
+      <h1 class="entry-title">How to Setup a Typical Python Development Environment on openSUSE</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2013-10-21T00:00:00+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>21</span><span class='date-suffix'>st</span>, <span class='date-year'>2013</span></span> <span class='time'>12:00 am</span></time>
+        
+           | <a href="#disqus_thread"
+             data-disqus-identifier="http://nikolayderkach.com">Comments</a>
+        
+      </p>
     
   </header>
-  
-  <div id="blog-archives">
 
 
+<div class="entry-content"><p>It&rsquo;s been a long time since I&rsquo;ve last installed a Linux distro on my desktop, more than 3 years I&rsquo;d say. Naturally I was quiet excited to watch the breakthrough it made over that time. Since my previous macbook air kicked the calendar, I figured time has come to give openSUSE a spin.</p>
 
-  
-  <h2>2015</h2>
+<p>Frankly I was quiet impressed that everything went pretty smooth, apart from the fact that I had to configure my BIOS to disable UEFI Secure Mode and that double-finger scrolling didn&rsquo;t work on my touchpad out of the box (yikes!)</p>
 
-<article>
-  
-<h1><a href="/using-flickr-api-for-beautiful-landmark-photos/">Using Flickr API for Beautiful Landmark Photos</a></h1>
-<time datetime="2015-01-20T14:01:44+08:00" pubdate><span class='month'>Jan</span> <span class='day'>20</span> <span class='year'>2015</span></time>
+<p>I wanted to build a python app using Flask as a web-framework and I&rsquo;m using Heroku for deployment. Here is how I went ahead an setup everything required to get started.
+Ah yes, I&rsquo;m using python3 and so should you.</p>
 
-<footer>
-  <span class="categories">posted in <a class='category' href='/categories/api/'>api</a>, <a class='category' href='/categories/flickr/'>flickr</a>, <a class='category' href='/categories/ios/'>ios</a></span>
-</footer>
+<p>I&rsquo;ve installed python and pip with zypper (<code>sudo zypper install</code>)</p>
 
-
-</article>
+<ul>
+<li>python3</li>
+<li>python3-pip</li>
+</ul>
 
 
+<p>I love using zsh, because it&rsquo;s <a href="http://fendrich.se/blog/2012/09/28/no">awesome</a></p>
 
-  
-  <h2>2013</h2>
-
-<article>
-  
-<h1><a href="/basic-http-authentication-with-forms/">Basic HTTP Authentication With Forms</a></h1>
-<time datetime="2013-12-03T10:21:00+08:00" pubdate><span class='month'>Dec</span> <span class='day'>03</span> <span class='year'>2013</span></time>
-
-<footer>
-  <span class="categories">posted in <a class='category' href='/categories/authentication/'>authentication</a>, <a class='category' href='/categories/flask/'>flask</a>, <a class='category' href='/categories/http/'>http</a></span>
-</footer>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">install zsh
+ sudo zypper install zsh
+ <span class="c"># make zsh your login shell</span>
+ chsh -s <span class="k">$(</span>which zsh<span class="k">)</span>
+ <span class="c"># relogin to make it work</span></code></pre></div>
 
 
-</article>
+<p>Then I need to setup my <a href="https://toolbelt.heroku.com/standalone">heroku toolbelt</a>:</p>
+
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">wget -qO- https://toolbelt.heroku.com/install.sh <span class="p">|</span> sh</code></pre></div>
 
 
+<p>Adjust your path to use heroku tools, but instead of adjusting ~/.profile use ~/.zshrc or ~/.zshenv</p>
 
-<article>
-  
-<h1><a href="/hacking-couchsurfing-dot-org-api-part-2/">Hacking couchsurfing.org API Part 2</a></h1>
-<time datetime="2013-11-24T21:51:00+08:00" pubdate><span class='month'>Nov</span> <span class='day'>24</span> <span class='year'>2013</span></time>
+<p>go ahead and setup your heroku tools as described in the guide, but don&rsquo;t forget to install Ruby first. Also, don&rsquo;t forget to add your ssh key in your heroku account settings.</p>
 
-<footer>
-  <span class="categories">posted in <a class='category' href='/categories/api/'>api</a>, <a class='category' href='/categories/couchsurfing/'>couchsurfing</a>, <a class='category' href='/categories/heroku/'>heroku</a>, <a class='category' href='/categories/mongo/'>mongo</a>, <a class='category' href='/categories/python/'>python</a></span>
-</footer>
+<p>Here is the catch though: for <a href="https://help.heroku.com/tickets/101227">some reason</a> foreman (used for local debugging) wasn&rsquo;t included in the bundle, so you have to run</p>
 
-
-</article>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">sudo gem install foreman
+foreman1.9 start</code></pre></div>
 
 
+<p>to start it.</p>
 
-<article>
-  
-<h1><a href="/hacking-couchsurfing-dot-org-api/">Hacking couchsurfing.org API</a></h1>
-<time datetime="2013-11-17T20:00:00+08:00" pubdate><span class='month'>Nov</span> <span class='day'>17</span> <span class='year'>2013</span></time>
+<p>And yes, be a good chap and install <a href="http://docs.python-guide.org/en/latest/dev/virtualenvs/">virtualenv</a> as well:</p>
 
-<footer>
-  <span class="categories">posted in <a class='category' href='/categories/api/'>api</a>, <a class='category' href='/categories/couchsurfing/'>couchsurfing</a>, <a class='category' href='/categories/python/'>python</a></span>
-</footer>
-
-
-</article>
+<div class="highlight"><pre><code class="language-bash" data-lang="bash">sudo pip-3.3 install virtualenv
+<span class="c"># cd to you app </span>
+virtualenv-3.3 venv --distribute
+<span class="nb">source </span>venv/bin/activate</code></pre></div>
 
 
-
-<article>
-  
-<h1><a href="/things-ive-learned-porting-ebay-sdk-to-python-3/">Things I&#8217;ve Learned Porting Ebay SDK to Python 3</a></h1>
-<time datetime="2013-10-27T00:00:00+08:00" pubdate><span class='month'>Oct</span> <span class='day'>27</span> <span class='year'>2013</span></time>
-
-<footer>
-  <span class="categories">posted in <a class='category' href='/categories/curl/'>curl</a>, <a class='category' href='/categories/ebay/'>ebay</a>, <a class='category' href='/categories/python/'>python</a>, <a class='category' href='/categories/python3/'>python3</a>, <a class='category' href='/categories/sdk/'>sdk</a></span>
-</footer>
-
-
-</article>
-
-
-
-<article>
-  
-<h1><a href="/how-to-setup-a-typical-python-development-environment-on-opensuse/">How to Setup a Typical Python Development Environment on openSUSE</a></h1>
-<time datetime="2013-10-21T00:00:00+08:00" pubdate><span class='month'>Oct</span> <span class='day'>21</span> <span class='year'>2013</span></time>
-
-<footer>
-  <span class="categories">posted in <a class='category' href='/categories/heroku/'>heroku</a>, <a class='category' href='/categories/opensuse/'>opensuse</a>, <a class='category' href='/categories/pip/'>pip</a>, <a class='category' href='/categories/python/'>python</a>, <a class='category' href='/categories/virtualenv/'>virtualenv</a>, <a class='category' href='/categories/zsh/'>zsh</a></span>
-</footer>
-
-
-</article>
-
+<p>Now, HACK.</p>
 </div>
 
+
+  <footer>
+    <p class="meta">
+      
   
+
+<span class="byline author vcard">Posted by <span class="fn">Nikolay Derkach</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2013-10-21T00:00:00+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>21</span><span class='date-suffix'>st</span>, <span class='date-year'>2013</span></span> <span class='time'>12:00 am</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/categories/heroku/'>heroku</a>, <a class='category' href='/categories/opensuse/'>opensuse</a>, <a class='category' href='/categories/pip/'>pip</a>, <a class='category' href='/categories/python/'>python</a>, <a class='category' href='/categories/virtualenv/'>virtualenv</a>, <a class='category' href='/categories/zsh/'>zsh</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://nikolayderkach.com/how-to-setup-a-typical-python-development-environment-on-opensuse/" data-via="nderkach" data-counturl="http://nikolayderkach.com/how-to-setup-a-typical-python-development-environment-on-opensuse/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+      
+        <a class="basic-alignment right" href="/things-ive-learned-porting-ebay-sdk-to-python-3/" title="Next Post: Things I've learned porting Ebay SDK to Python 3">Things I&#8217;ve learned porting Ebay SDK to Python 3 &raquo;</a>
+      
+    </p>
+  </footer>
 </article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
 
 </div>
 
@@ -287,7 +306,10 @@ Jan 20 2015 posted in api, flickr, ios 2013 Basic HTTP Authentication With Forms
       var disqus_shortname = 'nderkach';
       
         
-        var disqus_script = 'count.js';
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://nikolayderkach.com/how-to-setup-a-typical-python-development-environment-on-opensuse/';
+        var disqus_url = 'http://nikolayderkach.com/how-to-setup-a-typical-python-development-environment-on-opensuse/';
+        var disqus_script = 'embed.js';
       
     (function () {
       var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;

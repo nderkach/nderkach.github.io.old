@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Http | hack.]]></title>
+  <link href="http://nikolayderkach.com/categories/http/atom.xml" rel="self"/>
+  <link href="http://nikolayderkach.com/"/>
+  <updated>2015-01-23T13:16:51+08:00</updated>
+  <id>http://nikolayderkach.com/</id>
+  <author>
+    <name><![CDATA[Nikolay Derkach]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Basic HTTP Authentication With Forms]]></title>
+    <link href="http://nikolayderkach.com/basic-http-authentication-with-forms/"/>
+    <updated>2013-12-03T10:21:00+08:00</updated>
+    <id>http://nikolayderkach.com/basic-http-authentication-with-forms</id>
+    <content type="html"><![CDATA[<p>Here is a fairly simple trick, how to use basic HTTP authentication (yes, the one where you have an ugly popup window) with HTML forms. I&rsquo;m actually quiet surprised not a lot of developers are aware of it, as it&rsquo;s quiet neat.</p>
+
+<p>In short, the idea is that you create a form and pass authentication data to your backend.
+Simple enough, right? Here is how it&rsquo;s working under the hood.</p>
+
+<p>You create a basic HTML for with a submit button:</p>
+
+<pre><code class="html">&lt;form id="form-signin"&gt;
+    &lt;input type="text" id="login" placeholder="Login or Email" required autofocus=""&gt;
+    &lt;input type="password" id="password" placeholder="Password" required&gt;
+    &lt;button type="submit"&gt; Sign In &lt;/button&gt;
+&lt;/form&gt;
+</code></pre>
+
+<p>On top of that you add a javascript handler (this one uses jQuery), which sends a XMLHTTPRequest to the backend authentication folder (<code>/login</code> in our case) via username and password keys in the ajax call:</p>
+
+<pre><code class="javascript">$(document).ready(function()
+{
+    $('.form-signin').submit(function()
+    {
+
+        var username = $('#login').val();
+        var password = $('#password').val();
+
+        console.log("login: " + username);
+        console.log("password: " + password);
+
+        $.ajax(
+        {
+          'username' : username,
+          'password' : password,
+          'url'      : '/login',
+          'type'     : 'GET',
+          'success'  : function(){
+              /* authentication ok, redirect to the app */
+              window.location = '/';
+          },
+          'error'    : function(){
+              /* bootstrap alerts */
+              $('#alert').remove();
+              $('&lt;div class="alert alert-danger" id="alert"&gt;Wrong login/password. Try again.&lt;/div&gt;').insertAfter("#password").hide().slideDown("slow");
+          },
+        }
+        );
+        return false;
+    });
+});
+</code></pre>
+
+<p>I won&rsquo;t go into details, how Basic HTTP authentication works, but the idea is that the server sends a request for authentication as a 401 response with <code>WWW-Authenticate</code> header. So, whenever your backend receives a HTTP request with no authorization header, you want to send this response to authenticate user.</p>
+
+<p>Then the client sends another request with authorization this time, such as:</p>
+
+<p><code>Authorization: Basic QWxhZGRpbjpvcGVuIHNlc2FtZQ==</code></p>
+
+<p>Where the token are concatenated login and password in Base64. This is why you absolutely must use Basic Auth over HTTPS, if such option is not available, stay away from it.</p>
+
+<p>Finally when you backend receives the credential and you check that they are valid, you send another response (e.g. 200 for success and 400 for failure). That&rsquo;s it.</p>
+
+<p>As a bonus, here is a backend implementation of the above in Python with Flask (based on <a href="http://flask.pocoo.org/snippets/8/">this</a> snippet:</p>
+
+<pre><code class="python">from functools import wraps
+from flask import render_template, jsonify, Response, abort
+
+def check_auth(username, password):
+    """This function is called to check if a username /
+    password combination is valid.
+    """
+    try:
+        # check if username and password are correct
+    except AuthException:
+        return False
+    return api
+
+def authenticate():
+    """Sends a 401 response that enables basic auth"""
+    return Response(
+    'Could not verify your access level for that URL.\n'
+    'You have to login with proper credentials', 401,
+    {'WWW-Authenticate': 'Basic realm=""'})
+
+def requires_auth(f):
+    @wraps(f)
+    def decorated(*args, **kwargs):
+        auth = request.authorization
+        if not auth:
+            return authenticate()
+        api = check_auth(auth.username, auth.password)
+        return f(api, *args, **kwargs)
+    return decorated
+
+@app.route('/')
+def index():
+    if request.authorization:
+        return render_template("index.html")
+    else:
+        # that's where your login form is
+        return render_template("login.html")
+
+@app.route('/login')
+@requires_auth
+def login(api):
+    if api:
+        return jsonify(), 200
+    else:
+        abort(400)
+</code></pre>
+
+<p>And one more thing, <a href="https://cscalendar.herokuapp.com">here is</a> how it looks like.</p>
+]]></content>
+  </entry>
+  
+</feed>

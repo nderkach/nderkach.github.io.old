@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Flickr | hack.]]></title>
+  <link href="http://nikolayderkach.com/categories/flickr/atom.xml" rel="self"/>
+  <link href="http://nikolayderkach.com/"/>
+  <updated>2015-01-23T13:16:51+08:00</updated>
+  <id>http://nikolayderkach.com/</id>
+  <author>
+    <name><![CDATA[Nikolay Derkach]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Using Flickr API for Beautiful Landmark Photos]]></title>
+    <link href="http://nikolayderkach.com/using-flickr-api-for-beautiful-landmark-photos/"/>
+    <updated>2015-01-20T14:01:44+08:00</updated>
+    <id>http://nikolayderkach.com/using-flickr-api-for-beautiful-landmark-photos</id>
+    <content type="html"><![CDATA[<p>While building <a href="http://angel.co/traffle">Traffle</a> (a social travel iOS app), I&rsquo;ve stumbled upon a problem: how to generate high-quality landmark photos for a particular destination. To give you an idea of the kind of pictures I was looking for, check out <a href="https://mobile.yahoo.com/weather">Yahoo! Weather</a>. In Yahoo! Weather image content is curated: the best photos are being handpicked by editors.</p>
+
+<p>Tha app required to create a simple algorithm which produces relevant content. Surely no algorithm can compete with curated content, and I didn&rsquo;t want to spend time implementing a machine learning algorithm, like <a href="http://www.academia.edu/4610174/Exploiting_Flickr_Tags_and_Groups_for_Finding_Landmark_Photos">this one</a>.</p>
+
+<p>Playing around with <a href="https://www.flickr.com/services/api/flickr.photos.search.html">flickr.photos.search</a> I empirically found the optimal combination of accuracy, tags and <a href="http://www.steves-digicams.com/knowledge-center/how-tos/online-sharing-social-networking/what-is-flickr-interestingness.html">interestingness</a>. Here is the API request I came up with:</p>
+
+<pre><code class="http">GET https://api.flickr.com/services/rest/
+?accuracy=11&amp;
+api_key=API_KEY&amp;
+lat=37.7833&amp;lon=-122.4167&amp;
+method=flickr.photos.search&amp;
+sort=interestingness-desc&amp;
+tags=scenic,landmark&amp;
+api_sig=API_SIG
+</code></pre>
+
+<p>If you are building an iOS app, I recommend <a href="https://github.com/justinmfischer/core-background">this project</a> to build a nice landmark slide show like this one:</p>
+
+<p><img src="http://cl.ly/image/0W3V3b281g0M/13343.mov.gif" alt="Animation Example" /></p>
+
+<p>Surpisingly, a single call to Flickr API can solve a problem good enough and seems to be a resonable compromise. Yes, it&rsquo;s not perfect, and as much of a perfectionist I am, I think good engineering relies heavily on compromises - good enough now is better that perfect tomorrow. I&rsquo;d argue that selecetion of landmark photos is a very subjective process in iteself, and it could be that the imperfections of this approach actually add a more human touch to the photos. In case of San Francisco, you&rsquo;d not only see the Golden Bridge and Alkatraz, but also ordinary people in coffeeshops and backalleys.</p>
+]]></content>
+  </entry>
+  
+</feed>
