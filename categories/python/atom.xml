@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Python | hack.]]></title>
   <link href="http://nikolayderkach.com/categories/python/atom.xml" rel="self"/>
   <link href="http://nikolayderkach.com/"/>
-  <updated>2015-01-23T13:36:15+08:00</updated>
+  <updated>2015-01-23T14:05:54+08:00</updated>
   <id>http://nikolayderkach.com/</id>
   <author>
     <name><![CDATA[Nikolay Derkach]]></name>
@@ -14,7 +14,7 @@
 
   
   <entry>
-    <title type="html"><![CDATA[Hacking couchsurfing.org API Part 2]]></title>
+    <title type="html"><![CDATA[Hacking couchsurfing.com API Part 2]]></title>
     <link href="http://nikolayderkach.com/hacking-couchsurfing-dot-org-api-part-2/"/>
     <updated>2013-11-24T21:51:00+08:00</updated>
     <id>http://nikolayderkach.com/hacking-couchsurfing-dot-org-api-part-2</id>
@@ -63,7 +63,7 @@
   </entry>
   
   <entry>
-    <title type="html"><![CDATA[Hacking couchsurfing.org API]]></title>
+    <title type="html"><![CDATA[Hacking couchsurfing.com API]]></title>
     <link href="http://nikolayderkach.com/hacking-couchsurfing-dot-org-api/"/>
     <updated>2013-11-17T20:00:00+08:00</updated>
     <id>http://nikolayderkach.com/hacking-couchsurfing-dot-org-api</id>
@@ -93,7 +93,7 @@
 
 <p>Then you just parse the JSON response you get and pass the dates to the calendar javascript. I&rsquo;ve stubled upon a quiet curious issue on the way though, with python date representation. Apparently parsing a string into a UTC timestamp is not straightforward at all. One should avoid intermediary datetime structure, as it&rsquo;s not timezone aware. Have a look <a href="http://aboutsimon.com/2013/06/05/datetime-hell-time-zone-aware-to-unix-timestamp/">here</a> fore more details. Here is one of the ways to do it:</p>
 
-<pre><code class="python ">
+<pre><code class="python">
 from calendar import timegm
 import time
 
