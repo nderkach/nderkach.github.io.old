@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Things I&#8217;ve Learned Porting Ebay SDK to Python 3 - hack.</title>
+  <title>How to Dynamically Generate Jade Templates With Express.js - hack.</title>
   <meta name="author" content="Nikolay Derkach">
 
   
-  <meta name="description" content="Things I've learned porting Ebay SDK to Python 3" />
+  <meta name="description" content="How to render Jade templates on demand with Express.js and Node.js" />
   <meta name="keywords" content="Nikolay Derkach, nderkach, coding, programming, hacking, travel, ios, python, api, apps">
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://nikolayderkach.com/things-ive-learned-porting-ebay-sdk-to-python-3">
+  <link rel="canonical" href="http://nikolayderkach.com/how-to-dynamically-generate-jade-templates-with-express-dot-js-and-node-dot-js">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="hack." type="application/atom+xml">
@@ -81,7 +81,7 @@
   
   <header>
     
-      <h1 class="entry-title">Things I&#8217;ve Learned Porting Ebay SDK to Python 3</h1>
+      <h1 class="entry-title">How to Dynamically Generate Jade Templates With Express.js</h1>
     
     
       <p class="meta">
@@ -90,7 +90,7 @@
 
 
 
-<time class='entry-date' datetime='2013-10-27T00:00:00+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>27</span><span class='date-suffix'>th</span>, <span class='date-year'>2013</span></span> <span class='time'>12:00 am</span></time>
+<time class='entry-date' datetime='2015-01-27T20:22:48+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>27</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>8:22 pm</span></time>
         
            | <a href="#disqus_thread"
              data-disqus-identifier="http://nikolayderkach.com">Comments</a>
@@ -100,70 +100,64 @@
   </header>
 
 
-<div class="entry-content"><p>One day I&rsquo;ve decided to play around with Ebay a little bit (nothing illegal i swear). And since I love python my first step was to find if there is an Python SDK available somewhere. And indeed there was <a href="https://go.developer.ebay.com/developers/ebay/product-updates/announcing-ebay-open-source-python-sdk">one</a>. Had a look at the corresponding <a href="https://github.com/timotheus/ebaysdk-python">github repository</a> it seems it&rsquo;s being maintained as well. Great! Well, not really - it doesn&rsquo;t work with Python 3. Oh well, time to get my hands dirty.</p>
+<div class="entry-content"><p>Recently I&rsquo;ve been playing with Express.js - yes another MVC web framework. Even though I&rsquo;m not particularly font of Javascript for the backend, I decided to give it a shot for yet another <a href="https://github.com/nderkach/dropout">weekend project</a>. Even though I had to learn a new framework (Node.js with Express.js) and a new template language (Jade), my journey to building a simple website that does some web-crawling and serves as intermediary for passing through HTTP requests was fairly straight-forward. In fact, I enjoyed working with Jade, I definitely prefer it to a more verbose Jinja2.</p>
 
-<p>First thing I did was to run an infamous <a href="http://docs.python.org/2/library/2to3.html">2to3 tool</a>. And frankly it was quiet a help as it&rsquo;s had a great work, especially with those tedious brackets around print statements (but unfortunately not in doctests).</p>
+<p>The website work like this: you search for a term and it displays a list of videos matching the criteria. The search button sends an AJAX call to the backend which automagically generates a dictionary with metadata and links to the videos. Here comes a gotcha: instead of returning a JSON, you render a template on the backend side and return it to the client.</p>
 
-<p>Well the &ldquo;porting&rdquo; part itself was pretty smooth and straightforward in fact. The problem was that, well the SDK itself was mostly broken and I had to fix up quiet a lot on my way through.</p>
-
-<!--more-->
+<!-- more -->
 
 
-<p>Luckily there is an <a href="https://developer.ebay.com/DevZone/build-test/test-tool/">API testing tool</a>, which I could use as reference to form HTTP requests with correct headers and body XML.</p>
+<p>Say, you have a container <code>#search-results</code> to display your results and you install the following event handler for the search query:</p>
 
-<p>Then I&rsquo;ve stumbled upon a curious issue with pycurl and io.StringIO when using StringIO as a write callback for curl.
-The error looks as follows:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>pycurl.error: (23, 'Failed writing body (1457 != 1460)')</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Here is what I&rsquo;ve found in documentation:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>CURLE_WRITE_ERROR (23)
-</span><span class='line'>
-</span><span class='line'>An error occurred when writing received data to a local file, or an error was returned to libcurl from a write callback.</span></code></pre></td></tr></table></div></figure>
-
-
-<p>That&rsquo;s quiet an ambiguous description right here. Meaning that the issue could be either with a StringIO object or with my implementation of the write callback. I&rsquo;ve tried all the variations. Originally I just tried the following</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="bp">self</span><span class="o">.</span><span class="n">_curl</span><span class="o">.</span><span class="n">setopt</span><span class="p">(</span><span class="n">pycurl</span><span class="o">.</span><span class="n">WRITEFUNCTION</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_response_body</span><span class="o">.</span><span class="n">write</span><span class="p">)</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>where <code>self._response_body</code> is a StringIO. This failed. Then I&rsquo;ve tried to add a lambda as a write callback:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="bp">self</span><span class="o">.</span><span class="n">_curl</span><span class="o">.</span><span class="n">setopt</span><span class="p">(</span><span class="n">pycurl</span><span class="o">.</span><span class="n">WRITEFUNCTION</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">buf</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_response_body</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">buf</span><span class="p">))</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Nope, didn&rsquo;t work either. No what did work was to add a real function, such as:</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
 <span class='line-number'>2</span>
 <span class='line-number'>3</span>
 <span class='line-number'>4</span>
 <span class='line-number'>5</span>
 <span class='line-number'>6</span>
 <span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class='python'><span class='line'><span class="c">## Callback function invoked when body data is ready</span>
-</span><span class='line'><span class="k">def</span> <span class="nf">body</span><span class="p">(</span><span class="n">buf</span><span class="p">):</span>
-</span><span class='line'>    <span class="bp">self</span><span class="o">.</span><span class="n">_response_body</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">buf</span><span class="p">)</span>
-</span><span class='line'>
-</span><span class='line'><span class="c">## Callback function invoked when header data is ready</span>
-</span><span class='line'><span class="k">def</span> <span class="nf">header</span><span class="p">(</span><span class="n">buf</span><span class="p">):</span>
-</span><span class='line'>    <span class="bp">self</span><span class="o">.</span><span class="n">_response_header</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">buf</span><span class="p">)</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">$</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#form-submit&#39;</span><span class="p">).</span><span class="nx">click</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nx">e</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">();</span>
+</span><span class='line'>    <span class="nx">$</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s2">&quot;/search?q=&quot;</span> <span class="o">+</span> <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#search-field&#39;</span><span class="p">).</span><span class="nx">val</span><span class="p">(),</span> <span class="kd">function</span><span class="p">(</span><span class="nx">response</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>      <span class="nx">$</span><span class="p">(</span><span class="s2">&quot;#search-results&quot;</span><span class="p">).</span><span class="nx">empty</span><span class="p">()</span>
+</span><span class='line'>      <span class="nx">$</span><span class="p">(</span><span class="s2">&quot;#search-results&quot;</span><span class="p">).</span><span class="nx">append</span><span class="p">(</span><span class="nx">response</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">});</span>
+</span><span class='line'>    <span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">});</span>
+</span><span class='line'><span class="p">});</span>
 </span></code></pre></td></tr></table></div></figure>
 
 
-<p>Well, frankly I could find an explanation why it worked this way only. I&rsquo;ve posted the question on <a href="http://stackoverflow.com/questions/19606447/pycurl-and-io-stringio-pycurl-error-23-failed-writing-body">stackoverflow</a> and I filed a <a href="https://github.com/pycurl/pycurl/issues/51">bug for pycurl</a> as well. Will see&hellip;</p>
+<p>Now, you need to render required html with your search results on the backend.
+All you need to do is create another view <code>search.jade</code> with your template.
+Then on the backend, you add a route for <code>/search</code> which handles the request:</p>
 
-<p>Anyway, if you wish to try out python 3 friendly ebay sdk, <a href="https://github.com/nderkach/ebaysdk-python/">get it here</a>.</p>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">router</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;/search&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">,</span> <span class="nx">next</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kd">var</span> <span class="nx">query</span> <span class="o">=</span> <span class="nx">req</span><span class="p">.</span><span class="nx">query</span><span class="p">.</span><span class="nx">q</span><span class="p">;</span>
+</span><span class='line'>  <span class="kd">var</span> <span class="nx">videos</span> <span class="o">=</span> <span class="p">{};</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">// do some video magic here</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nx">res</span><span class="p">.</span><span class="nx">render</span><span class="p">(</span><span class="s1">&#39;search&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;result&#39;</span> <span class="o">:</span> <span class="nx">videos</span><span class="p">});</span>
+</span><span class='line'><span class="p">});</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Voila! Now you call you backend with a query and it renders your search results, which are dynamically added to your client&rsquo;s DOM.</p>
 </div>
 
 
@@ -179,12 +173,12 @@ The error looks as follows:</p>
 
 
 
-<time class='entry-date' datetime='2013-10-27T00:00:00+08:00'><span class='date'><span class='date-month'>Oct</span> <span class='date-day'>27</span><span class='date-suffix'>th</span>, <span class='date-year'>2013</span></span> <span class='time'>12:00 am</span></time>
+<time class='entry-date' datetime='2015-01-27T20:22:48+08:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>27</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>8:22 pm</span></time>
       
 
 <span class="categories">
   
-    <a class='category' href='/categories/curl/'>curl</a>, <a class='category' href='/categories/ebay/'>ebay</a>, <a class='category' href='/categories/python/'>python</a>, <a class='category' href='/categories/python3/'>python3</a>, <a class='category' href='/categories/sdk/'>sdk</a>
+    <a class='category' href='/categories/expressjs/'>expressjs</a>, <a class='category' href='/categories/jade/'>jade</a>, <a class='category' href='/categories/javascript/'>javascript</a>, <a class='category' href='/categories/nodejs/'>nodejs</a>, <a class='category' href='/categories/templates/'>templates</a>
   
 </span>
 
@@ -193,7 +187,7 @@ The error looks as follows:</p>
     
       <div class="sharing">
   
-  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://nikolayderkach.com/things-ive-learned-porting-ebay-sdk-to-python-3/" data-via="nderkach" data-counturl="http://nikolayderkach.com/things-ive-learned-porting-ebay-sdk-to-python-3/" >Tweet</a>
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://nikolayderkach.com/how-to-dynamically-generate-jade-templates-with-express-dot-js-and-node-dot-js/" data-via="nderkach" data-counturl="http://nikolayderkach.com/how-to-dynamically-generate-jade-templates-with-express-dot-js-and-node-dot-js/" >Tweet</a>
   
   
   
@@ -202,10 +196,8 @@ The error looks as follows:</p>
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/how-to-setup-a-typical-python-development-environment-on-opensuse/" title="Previous Post: How to setup a typical Python development environment on openSUSE">&laquo; How to setup a typical Python development environment on openSUSE</a>
+        <a class="basic-alignment left" href="/using-flickr-api-for-beautiful-landmark-photos/" title="Previous Post: Using Flickr API for beautiful landmark photos">&laquo; Using Flickr API for beautiful landmark photos</a>
       
-      
-        <a class="basic-alignment right" href="/hacking-couchsurfing-dot-org-api/" title="Next Post: Hacking couchsurfing.com API">Hacking couchsurfing.com API &raquo;</a>
       
     </p>
   </footer>
@@ -330,8 +322,8 @@ The error looks as follows:</p>
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://nikolayderkach.com/things-ive-learned-porting-ebay-sdk-to-python-3/';
-        var disqus_url = 'http://nikolayderkach.com/things-ive-learned-porting-ebay-sdk-to-python-3/';
+        var disqus_identifier = 'http://nikolayderkach.com/how-to-dynamically-generate-jade-templates-with-express-dot-js-and-node-dot-js/';
+        var disqus_url = 'http://nikolayderkach.com/how-to-dynamically-generate-jade-templates-with-express-dot-js-and-node-dot-js/';
         var disqus_script = 'embed.js';
       
     (function () {

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Nodejs | hack.]]></title>
+  <link href="http://nikolayderkach.com/categories/nodejs/atom.xml" rel="self"/>
+  <link href="http://nikolayderkach.com/"/>
+  <updated>2015-01-27T20:51:19+08:00</updated>
+  <id>http://nikolayderkach.com/</id>
+  <author>
+    <name><![CDATA[Nikolay Derkach]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[How to Dynamically Generate Jade Templates With Express.js]]></title>
+    <link href="http://nikolayderkach.com/how-to-dynamically-generate-jade-templates-with-express-dot-js-and-node-dot-js/"/>
+    <updated>2015-01-27T20:22:48+08:00</updated>
+    <id>http://nikolayderkach.com/how-to-dynamically-generate-jade-templates-with-express-dot-js-and-node-dot-js</id>
+    <content type="html"><![CDATA[<p>Recently I&rsquo;ve been playing with Express.js - yes another MVC web framework. Even though I&rsquo;m not particularly font of Javascript for the backend, I decided to give it a shot for yet another <a href="https://github.com/nderkach/dropout">weekend project</a>. Even though I had to learn a new framework (Node.js with Express.js) and a new template language (Jade), my journey to building a simple website that does some web-crawling and serves as intermediary for passing through HTTP requests was fairly straight-forward. In fact, I enjoyed working with Jade, I definitely prefer it to a more verbose Jinja2.</p>
+
+<p>The website work like this: you search for a term and it displays a list of videos matching the criteria. The search button sends an AJAX call to the backend which automagically generates a dictionary with metadata and links to the videos. Here comes a gotcha: instead of returning a JSON, you render a template on the backend side and return it to the client.</p>
+
+<!-- more -->
+
+
+<p>Say, you have a container <code>#search-results</code> to display your results and you install the following event handler for the search query:</p>
+
+<pre><code class="javascript">$(function() {
+  $('#form-submit').click(function(e) {
+    e.preventDefault();
+    $.get("/search?q=" + $('#search-field').val(), function(response) {
+      $("#search-results").empty()
+      $("#search-results").append(response)
+    });
+    return false;
+  });
+});
+</code></pre>
+
+<p>Now, you need to render required html with your search results on the backend.
+All you need to do is create another view <code>search.jade</code> with your template.
+Then on the backend, you add a route for <code>/search</code> which handles the request:</p>
+
+<pre><code class="javascript">router.get('/search', function(req, res, next) {
+
+  var query = req.query.q;
+  var videos = {};
+
+  // do some video magic here
+
+  res.render('search', {'result' : videos});
+});
+</code></pre>
+
+<p>Voila! Now you call you backend with a query and it renders your search results, which are dynamically added to your client&rsquo;s DOM.</p>
+]]></content>
+  </entry>
+  
+</feed>
