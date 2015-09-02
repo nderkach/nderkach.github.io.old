@@ -4,7 +4,7 @@
   <title><![CDATA[hack.]]></title>
   <link href="http://nikolayderkach.com/atom.xml" rel="self"/>
   <link href="http://nikolayderkach.com/"/>
-  <updated>2015-09-02T17:23:58+08:00</updated>
+  <updated>2015-09-02T17:29:33+08:00</updated>
   <id>http://nikolayderkach.com/</id>
   <author>
     <name><![CDATA[Nikolay Derkach]]></name>
@@ -20,7 +20,7 @@
     <id>http://nikolayderkach.com/hacking-parse-dot-com-quota</id>
     <content type="html"><![CDATA[<p>Parse.com is a great BaaS (backend as a service) solution, it helped me numerous times to take a mobile app prototype or MVP off the ground and focus on the product features, rather than building the database layer, push notifications infrastructure and analytics platform from scratch.</p>
 
-<p>The provide you with a pretty lean pricing structure when you pay proportionally to the number of requests you make to the API on top of free 30 requests per second. Now, even though one should optimize an app to make as few requests to the API as possible, Parse has no built-in request throttling support, i.e. if you have a spike of API usage at some point, there is no way to balance it. If you reach your plan quota, all the requests made above the threshold are being simply rejected. Parse seem to present it as a feature ensuring a better QoS and recommends upgrading your quota: this way the API is respnsive and you don&rsquo;t have to wait, but frankly I&rsquo;d much rather make my users wait a little bit every once in a while than lose their data.</p>
+<p>The provide you with a pretty lean pricing structure when you pay proportionally to the number of requests you make to the API on top of free 30 requests per second. Now, even though one should optimize an app to make as few requests to the API as possible, Parse has no built-in request throttling support, i.e. if you have a spike of API usage at some point, there is no way to balance it. If you reach your plan quota, all the requests made above the threshold are being simply rejected. Parse seem to present it as a feature ensuring a better QoS and recommends upgrading your quota: this way the API is responsive and you don&rsquo;t have to wait, but frankly I&rsquo;d much rather make my users wait a little bit every once in a while than lose their data.</p>
 
 <!-- more -->
 
