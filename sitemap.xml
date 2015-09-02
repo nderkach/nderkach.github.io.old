@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>http://nikolayderkach.com/hacking-parse-dot-com-quota/</loc>
+    <lastmod>2015-05-24T16:41:37+08:00</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>http://nikolayderkach.com/how-to-dynamically-generate-jade-templates-with-express-dot-js-and-node-dot-js/</loc>
     <lastmod>2015-01-27T20:22:48+08:00</lastmod>
     <priority>0.8</priority>
@@ -37,13 +42,13 @@
   </url>
   <url>
     <loc>http://nikolayderkach.com/blog/archives/</loc>
-    <lastmod>2015-01-28T12:16:30+08:00</lastmod>
+    <lastmod>2015-09-02T17:21:23+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>http://nikolayderkach.com/</loc>
-    <lastmod>2015-01-28T12:16:30+08:00</lastmod>
+    <lastmod>2015-09-02T17:21:23+08:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
