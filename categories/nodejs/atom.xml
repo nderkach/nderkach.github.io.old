@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Nodejs | hack.]]></title>
   <link href="http://nikolayderkach.com/categories/nodejs/atom.xml" rel="self"/>
   <link href="http://nikolayderkach.com/"/>
-  <updated>2015-09-02T17:21:23+08:00</updated>
+  <updated>2015-09-02T17:23:58+08:00</updated>
   <id>http://nikolayderkach.com/</id>
   <author>
     <name><![CDATA[Nikolay Derkach]]></name>
@@ -27,7 +27,7 @@
 
 <p>Naturally, if you consistently exceed your plan&rsquo;s quota, you should upgrade. In cases of short request bursts - here is the solution.</p>
 
-<h1>Queue&#8217;em Up!</h1>
+<h3>Queue&#8217;em Up!</h3>
 
 <p>For starter, I&rsquo;ve wrote a simple script sending 50 requests/s to Parse API, and see how it reacts. It seems that the quota limit is checked every minute, so on my free plan I can make up 1800 requests a minute. When you reach your quota limit, you get a <code>400</code>.</p>
 
