@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Api | hack.]]></title>
   <link href="http://nikolayderkach.com/categories/api/atom.xml" rel="self"/>
   <link href="http://nikolayderkach.com/"/>
-  <updated>2015-09-02T17:29:33+08:00</updated>
+  <updated>2015-11-01T15:33:34+01:00</updated>
   <id>http://nikolayderkach.com/</id>
   <author>
     <name><![CDATA[Nikolay Derkach]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[Using Flickr API for Beautiful Landmark Photos]]></title>
     <link href="http://nikolayderkach.com/using-flickr-api-for-beautiful-landmark-photos/"/>
-    <updated>2015-01-20T14:01:44+08:00</updated>
+    <updated>2015-01-20T07:01:44+01:00</updated>
     <id>http://nikolayderkach.com/using-flickr-api-for-beautiful-landmark-photos</id>
     <content type="html"><![CDATA[<p>While building <a href="http://angel.co/traffle">Traffle</a> (a social travel iOS app), I&rsquo;ve stumbled upon a problem: how to generate high-quality landmark photos for a particular destination. To give you an idea of the kind of pictures I was looking for, check out <a href="https://mobile.yahoo.com/weather">Yahoo! Weather</a>. In Yahoo! Weather image content is curated: the best photos are being handpicked by editors.</p>
 
@@ -48,7 +48,7 @@ api_sig=API_SIG
   <entry>
     <title type="html"><![CDATA[Hacking couchsurfing.com API Part 2]]></title>
     <link href="http://nikolayderkach.com/hacking-couchsurfing-dot-org-api-part-2/"/>
-    <updated>2013-11-24T21:51:00+08:00</updated>
+    <updated>2013-11-24T21:51:00+01:00</updated>
     <id>http://nikolayderkach.com/hacking-couchsurfing-dot-org-api-part-2</id>
     <content type="html"><![CDATA[<p>This is a follow-up for my <a href="/blog/2013/11/17/hacking-couchsurfing-dot-org-api/">previous article</a>. To remind you, I&rsquo;ve created a web app <a href="http://couchrequests.com">http://couchrequests.com</a> which extends functionality of <a href="http://couchsurfing.org">http://couchsurfing.org</a> by accessing their private API.</p>
 
@@ -100,7 +100,7 @@ api_sig=API_SIG
   <entry>
     <title type="html"><![CDATA[Hacking couchsurfing.com API]]></title>
     <link href="http://nikolayderkach.com/hacking-couchsurfing-dot-org-api/"/>
-    <updated>2013-11-17T20:00:00+08:00</updated>
+    <updated>2013-11-17T20:00:00+01:00</updated>
     <id>http://nikolayderkach.com/hacking-couchsurfing-dot-org-api</id>
     <content type="html"><![CDATA[<p>Traveling is my passion and I&rsquo;m an huge fan of <a href="http://couchsurfing.org">couchsurfing</a>. Couchsurfing is a global community of travelers, where you can find a place to stay or share you own home with other travelers. On top of that couchsurfing helps you to have genuine traveling experiences while interacting with locals. Here is <a href="https://www.couchsurfing.org/n/how-it-works">how it works</a>. Hell, I&rsquo;ve met some of the most awesome people in the world and made lots of friends though this community.</p>
 

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Expressjs | hack.]]></title>
   <link href="http://nikolayderkach.com/categories/expressjs/atom.xml" rel="self"/>
   <link href="http://nikolayderkach.com/"/>
-  <updated>2015-09-02T17:29:33+08:00</updated>
+  <updated>2015-11-01T15:33:34+01:00</updated>
   <id>http://nikolayderkach.com/</id>
   <author>
     <name><![CDATA[Nikolay Derkach]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[How to Dynamically Generate Jade Templates With Express.js]]></title>
     <link href="http://nikolayderkach.com/how-to-dynamically-generate-jade-templates-with-express-dot-js-and-node-dot-js/"/>
-    <updated>2015-01-27T20:22:48+08:00</updated>
+    <updated>2015-01-27T13:22:48+01:00</updated>
     <id>http://nikolayderkach.com/how-to-dynamically-generate-jade-templates-with-express-dot-js-and-node-dot-js</id>
     <content type="html"><![CDATA[<p>Recently I&rsquo;ve been playing with Express.js - yet another MVC web framework. Even though I&rsquo;m not particularly fond of Javascript for the backend, I decided to give it a shot for yet another <a href="https://github.com/nderkach/dropout">weekend project</a>. Even though I had to learn a new framework (Node.js with Express.js) and a new template language (Jade), my journey to building a simple website that does some web-crawling and serves as intermediary for passing through HTTP requests was fairly straight-forward. In fact, I enjoyed working with Jade, I definitely prefer it to a more verbose Jinja2.</p>
 
