@@ -1,0 +1,359 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>How to Dynamically Generate Jade Templates With Express.js - hack.</title>
+  <meta name="author" content="Nikolay Derkach">
+
+  
+  <meta name="description" content="How to render Jade templates on demand with Express.js and Node.js" />
+  <meta name="keywords" content="Nikolay Derkach, nderkach, coding, programming, hacking, travel, ios, python, api, apps">
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://nikolayderkach.com/how-to-dynamically-generate-jade-templates-with-express-dot-js-and-node-dot-js">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="hack." type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/libs/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="//fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="//fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-37086340-3']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">hack.</a></h1>
+  
+    <h2>by Nikolay Derkach</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:nikolayderkach.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">blog.</a></li>
+  <li><a href="/blog/archives">archives.</a></li>
+  <li><a href="http://about.me/nderk">about.</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">How to Dynamically Generate Jade Templates With Express.js</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+<time class='entry-date' datetime='2015-01-27T13:22:48+01:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>27</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>1:22 pm</span></time>
+        
+           | <a href="#disqus_thread"
+             data-disqus-identifier="http://nikolayderkach.com">Comments</a>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>Recently I&rsquo;ve been playing with Express.js - yet another MVC web framework. Even though I&rsquo;m not particularly fond of Javascript for the backend, I decided to give it a shot for yet another <a href="https://github.com/nderkach/dropout">weekend project</a>. Even though I had to learn a new framework (Node.js with Express.js) and a new template language (Jade), my journey to building a simple website that does some web-crawling and serves as intermediary for passing through HTTP requests was fairly straight-forward. In fact, I enjoyed working with Jade, I definitely prefer it to a more verbose Jinja2.</p>
+
+<p>The website works like this: you search for a term and it displays a list of videos matching the criteria. The search button sends an AJAX call to the backend which automagically generates a dictionary with metadata and links to the videos. Here comes a gotcha: instead of returning a JSON, you render a template on the backend side and return it to the client.</p>
+
+<!-- more -->
+
+
+<p>Say, you have a container <code>#search-results</code> to display your results and you install the following event handler for the search query:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">$</span><span class="p">(</span><span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#form-submit&#39;</span><span class="p">).</span><span class="nx">click</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nx">e</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">();</span>
+</span><span class='line'>    <span class="nx">$</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s2">&quot;/search?q=&quot;</span> <span class="o">+</span> <span class="nx">$</span><span class="p">(</span><span class="s1">&#39;#search-field&#39;</span><span class="p">).</span><span class="nx">val</span><span class="p">(),</span> <span class="kd">function</span><span class="p">(</span><span class="nx">response</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>      <span class="nx">$</span><span class="p">(</span><span class="s2">&quot;#search-results&quot;</span><span class="p">).</span><span class="nx">empty</span><span class="p">()</span>
+</span><span class='line'>      <span class="nx">$</span><span class="p">(</span><span class="s2">&quot;#search-results&quot;</span><span class="p">).</span><span class="nx">append</span><span class="p">(</span><span class="nx">response</span><span class="p">)</span>
+</span><span class='line'>    <span class="p">});</span>
+</span><span class='line'>    <span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">});</span>
+</span><span class='line'><span class="p">});</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now, you need to render required html with your search results on the backend.
+All you need to do is create another view <code>search.jade</code> with your template.
+Then on the backend, you add a route for <code>/search</code> which handles the request:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">router</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;/search&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">,</span> <span class="nx">next</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="kd">var</span> <span class="nx">query</span> <span class="o">=</span> <span class="nx">req</span><span class="p">.</span><span class="nx">query</span><span class="p">.</span><span class="nx">q</span><span class="p">;</span>
+</span><span class='line'>  <span class="kd">var</span> <span class="nx">videos</span> <span class="o">=</span> <span class="p">{};</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="c1">// do some video magic here</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nx">res</span><span class="p">.</span><span class="nx">render</span><span class="p">(</span><span class="s1">&#39;search&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;result&#39;</span> <span class="o">:</span> <span class="nx">videos</span><span class="p">});</span>
+</span><span class='line'><span class="p">});</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Voila! Now you call you backend with a query and it renders your search results, which are dynamically added to your client&rsquo;s DOM.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Nikolay Derkach</span></span>
+
+      
+
+
+
+
+<time class='entry-date' datetime='2015-01-27T13:22:48+01:00'><span class='date'><span class='date-month'>Jan</span> <span class='date-day'>27</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>1:22 pm</span></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/categories/expressjs/'>expressjs</a>, <a class='category' href='/categories/jade/'>jade</a>, <a class='category' href='/categories/javascript/'>javascript</a>, <a class='category' href='/categories/nodejs/'>nodejs</a>, <a class='category' href='/categories/templates/'>templates</a>
+  
+</span>
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://nikolayderkach.com/how-to-dynamically-generate-jade-templates-with-express-dot-js-and-node-dot-js/" data-via="nderkach" data-counturl="http://nikolayderkach.com/how-to-dynamically-generate-jade-templates-with-express-dot-js-and-node-dot-js/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/using-flickr-api-for-beautiful-landmark-photos/" title="Previous Post: Using Flickr API for beautiful landmark photos">&laquo; Using Flickr API for beautiful landmark photos</a>
+      
+      
+        <a class="basic-alignment right" href="/hacking-parse-dot-com-quota/" title="Next Post: Hacking Parse.com quota">Hacking Parse.com quota &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+  <section>
+    <h1>Comments</h1>
+    <div id="disqus_thread" aria-live="polite"><noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+  </section>
+
+</div>
+
+<aside class="sidebar">
+  
+    
+<section>
+  <h1>Subscribe</h1>
+  <!-- Begin MailChimp Signup Form -->
+  <div id="mc_embed_signup">
+    <form action="//nikolayderkach.us7.list-manage.com/subscribe/post?u=89b83b635bc800c2093475053&amp;id=a1ae850f78" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+      <div class="mc-field-group">
+  <label for="mce-EMAIL">
+    Get blog updates to your inbox
+  </label>
+  <input type="email" value="" name="EMAIL" class="required email" id="mce-EMAIL" placeholder="Your Email Here">
+      </div>
+      <div id="mce-responses" class="clear">
+  <div class="response" id="mce-error-response" style="display:none"></div>
+  <div class="response" id="mce-success-response" style="display:none"></div>
+      </div>
+      <div class="clear">
+  <input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button">
+      </div>
+    </form>
+  </div>
+  <!--End mc_embed_signup-->
+</section>
+
+
+<section>
+<a class="twitter-timeline" href="https://twitter.com/nderkach" data-widget-id="558511361668296704">Tweets by @nderkach</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+</section>
+
+<section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/hacking-parse-dot-com-quota/">Hacking Parse.com Quota</a>
+      </li>
+    
+      <li class="post">
+        <a href="/how-to-dynamically-generate-jade-templates-with-express-dot-js-and-node-dot-js/">How to Dynamically Generate Jade Templates With Express.js</a>
+      </li>
+    
+      <li class="post">
+        <a href="/using-flickr-api-for-beautiful-landmark-photos/">Using Flickr API for Beautiful Landmark Photos</a>
+      </li>
+    
+      <li class="post">
+        <a href="/basic-http-authentication-with-forms/">Basic HTTP Authentication With Forms</a>
+      </li>
+    
+      <li class="post">
+        <a href="/hacking-couchsurfing-dot-org-api-part-2/">Hacking couchsurfing.com API Part 2</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating&#8230;</li>
+  </ul>
+  
+  <a href="https://github.com/nderkach">@nderkach</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'nderkach',
+            count: 5,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2015 - Nikolay Derkach -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+<script type="text/javascript">
+      var disqus_shortname = 'nderkach';
+      
+        
+        // var disqus_developer = 1;
+        var disqus_identifier = 'http://nikolayderkach.com/how-to-dynamically-generate-jade-templates-with-express-dot-js-and-node-dot-js/';
+        var disqus_url = 'http://nikolayderkach.com/how-to-dynamically-generate-jade-templates-with-express-dot-js-and-node-dot-js/';
+        var disqus_script = 'embed.js';
+      
+    (function () {
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/' + disqus_script;
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    }());
+</script>
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = '//platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

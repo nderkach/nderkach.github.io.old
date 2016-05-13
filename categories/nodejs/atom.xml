@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Nodejs | hack.]]></title>
+  <link href="http://nikolayderkach.com/categories/nodejs/atom.xml" rel="self"/>
+  <link href="http://nikolayderkach.com/"/>
+  <updated>2015-11-01T15:33:34+01:00</updated>
+  <id>http://nikolayderkach.com/</id>
+  <author>
+    <name><![CDATA[Nikolay Derkach]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Hacking Parse.com Quota]]></title>
+    <link href="http://nikolayderkach.com/hacking-parse-dot-com-quota/"/>
+    <updated>2015-05-24T10:41:37+02:00</updated>
+    <id>http://nikolayderkach.com/hacking-parse-dot-com-quota</id>
+    <content type="html"><![CDATA[<p>Parse.com is a great BaaS (backend as a service) solution, it helped me numerous times to take a mobile app prototype or MVP off the ground and focus on the product features, rather than building the database layer, push notifications infrastructure and analytics platform from scratch.</p>
+
+<p>The provide you with a pretty lean pricing structure when you pay proportionally to the number of requests you make to the API on top of free 30 requests per second. Now, even though one should optimize an app to make as few requests to the API as possible, Parse has no built-in request throttling support, i.e. if you have a spike of API usage at some point, there is no way to balance it. If you reach your plan quota, all the requests made above the threshold are being simply rejected. Parse seem to present it as a feature ensuring a better QoS and recommends upgrading your quota: this way the API is responsive and you don&rsquo;t have to wait, but frankly I&rsquo;d much rather make my users wait a little bit every once in a while than lose their data.</p>
+
+<!-- more -->
+
+
+<p>Naturally, if you consistently exceed your plan&rsquo;s quota, you should upgrade. In cases of short request bursts - here is the solution.</p>
+
+<h3>Queue&#8217;em Up!</h3>
+
+<p>For starter, I&rsquo;ve wrote a simple script sending 50 requests/s to Parse API, and see how it reacts. It seems that the quota limit is checked every minute, so on my free plan I can make up 1800 requests a minute. When you reach your quota limit, you get a <code>400</code>.</p>
+
+<p>I&rsquo;ve built a very simple proxy with Node.js which intercepts all the requests to Parse.com and puts them in a throttled FIFO queue. Every 30 seconds or so, a requests is taken from a queue and sent to <code>api.parse.com</code>.
+No more request drops!</p>
+
+<p>Here is the source code for the proxy: <a href="https://github.com/nderkach/parse-balancer">https://github.com/nderkach/parse-balancer</a></p>
+
+<p>Feel free to try it out live here as well: <a href="https://parse.space">https://parse.space</a>
+I pinky promise not to read your payloads. Really.</p>
+
+<p>To make for example iOS SDK work with our brand new proxy, you need to replace a string &ldquo;api.parse.com&rdquo; in Parse binary. To patch a Mach-O universal binary, you need the string to be of the same length as the original one or shorter padded with zeros, this way offsets for the following instructions would remain the same. More on that in the next article.</p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[How to Dynamically Generate Jade Templates With Express.js]]></title>
+    <link href="http://nikolayderkach.com/how-to-dynamically-generate-jade-templates-with-express-dot-js-and-node-dot-js/"/>
+    <updated>2015-01-27T13:22:48+01:00</updated>
+    <id>http://nikolayderkach.com/how-to-dynamically-generate-jade-templates-with-express-dot-js-and-node-dot-js</id>
+    <content type="html"><![CDATA[<p>Recently I&rsquo;ve been playing with Express.js - yet another MVC web framework. Even though I&rsquo;m not particularly fond of Javascript for the backend, I decided to give it a shot for yet another <a href="https://github.com/nderkach/dropout">weekend project</a>. Even though I had to learn a new framework (Node.js with Express.js) and a new template language (Jade), my journey to building a simple website that does some web-crawling and serves as intermediary for passing through HTTP requests was fairly straight-forward. In fact, I enjoyed working with Jade, I definitely prefer it to a more verbose Jinja2.</p>
+
+<p>The website works like this: you search for a term and it displays a list of videos matching the criteria. The search button sends an AJAX call to the backend which automagically generates a dictionary with metadata and links to the videos. Here comes a gotcha: instead of returning a JSON, you render a template on the backend side and return it to the client.</p>
+
+<!-- more -->
+
+
+<p>Say, you have a container <code>#search-results</code> to display your results and you install the following event handler for the search query:</p>
+
+<pre><code class="javascript">$(function() {
+  $('#form-submit').click(function(e) {
+    e.preventDefault();
+    $.get("/search?q=" + $('#search-field').val(), function(response) {
+      $("#search-results").empty()
+      $("#search-results").append(response)
+    });
+    return false;
+  });
+});
+</code></pre>
+
+<p>Now, you need to render required html with your search results on the backend.
+All you need to do is create another view <code>search.jade</code> with your template.
+Then on the backend, you add a route for <code>/search</code> which handles the request:</p>
+
+<pre><code class="javascript">router.get('/search', function(req, res, next) {
+
+  var query = req.query.q;
+  var videos = {};
+
+  // do some video magic here
+
+  res.render('search', {'result' : videos});
+});
+</code></pre>
+
+<p>Voila! Now you call you backend with a query and it renders your search results, which are dynamically added to your client&rsquo;s DOM.</p>
+]]></content>
+  </entry>
+  
+</feed>

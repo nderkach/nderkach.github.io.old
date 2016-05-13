@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: Opensuse | hack.]]></title>
+  <link href="http://nikolayderkach.com/categories/opensuse/atom.xml" rel="self"/>
+  <link href="http://nikolayderkach.com/"/>
+  <updated>2015-11-01T15:33:34+01:00</updated>
+  <id>http://nikolayderkach.com/</id>
+  <author>
+    <name><![CDATA[Nikolay Derkach]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[How to Setup a Typical Python Development Environment on openSUSE]]></title>
+    <link href="http://nikolayderkach.com/how-to-setup-a-typical-python-development-environment-on-opensuse/"/>
+    <updated>2013-10-21T00:00:00+02:00</updated>
+    <id>http://nikolayderkach.com/how-to-setup-a-typical-python-development-environment-on-opensuse</id>
+    <content type="html"><![CDATA[<p>It&rsquo;s been a long time since I&rsquo;ve last installed a Linux distro on my desktop, more than 3 years I&rsquo;d say. Naturally I was quiet excited to watch the breakthrough it made over that time. Since my previous macbook air kicked the calendar, I figured time has come to give openSUSE a spin.</p>
+
+<p>Frankly I was quiet impressed that everything went pretty smooth, apart from the fact that I had to configure my BIOS to disable UEFI Secure Mode and that double-finger scrolling didn&rsquo;t work on my touchpad out of the box (yikes!)</p>
+
+<p>I wanted to build a python app using Flask as a web-framework and I&rsquo;m using Heroku for deployment. Here is how I went ahead an setup everything required to get started.
+Ah yes, I&rsquo;m using python3 and so should you.</p>
+
+<!--more-->
+
+
+<p>I&rsquo;ve installed python and pip with zypper (<code>sudo zypper install</code>)</p>
+
+<ul>
+<li>python3</li>
+<li>python3-pip</li>
+</ul>
+
+
+<p>I love using zsh, because it&rsquo;s <a href="http://fendrich.se/blog/2012/09/28/no">awesome</a></p>
+
+<p> <div class="highlight"><pre><code class="language-bash" data-lang="bash">install zsh
+ sudo zypper install zsh
+ <span class="c"># make zsh your login shell</span>
+ chsh -s <span class="k">$(</span>which zsh<span class="k">)</span>
+ <span class="c"># relogin to make it work</span></code></pre></div></p>
+
+<p>Then I need to setup my <a href="https://toolbelt.heroku.com/standalone">heroku toolbelt</a>:</p>
+
+<p><div class="highlight"><pre><code class="language-bash" data-lang="bash">wget -qO- &lt;a <span class="nv">href</span><span class="o">=</span><span class="s2">&quot;https://toolbelt.heroku.com/install.sh&quot;</span>&gt;https://toolbelt.heroku.com/install.sh&lt;/a&gt; <span class="p">|</span> sh</code></pre></div></p>
+
+<p>Adjust your path to use heroku tools, but instead of adjusting ~/.profile use ~/.zshrc or ~/.zshenv</p>
+
+<p>go ahead and setup your heroku tools as described in the guide, but don&rsquo;t forget to install Ruby first. Also, don&rsquo;t forget to add your ssh key in your heroku account settings.</p>
+
+<p>Here is the catch though: for <a href="https://help.heroku.com/tickets/101227">some reason</a> foreman (used for local debugging) wasn&rsquo;t included in the bundle, so you have to run</p>
+
+<p><div class="highlight"><pre><code class="language-bash" data-lang="bash">sudo gem install foreman
+foreman1.9 start</code></pre></div></p>
+
+<p>to start it.</p>
+
+<p>And yes, be a good chap and install <a href="http://docs.python-guide.org/en/latest/dev/virtualenvs/">virtualenv</a> as well:</p>
+
+<p><div class="highlight"><pre><code class="language-bash" data-lang="bash">sudo pip-3.3 install virtualenv&lt;/p&gt;
+
+&lt;h1&gt;cd to you app&lt;/h1&gt;
+
+&lt;p&gt;virtualenv-3.3 venv <span class="p">&amp;</span>ndash<span class="p">;</span>distribute
+<span class="nb">source </span>venv/bin/activate</code></pre></div></p>
+
+<p>Now, HACK.</p>
+]]></content>
+  </entry>
+  
+</feed>
