@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Curl | hack.]]></title>
   <link href="http://nikolayderkach.com/categories/curl/atom.xml" rel="self"/>
   <link href="http://nikolayderkach.com/"/>
-  <updated>2015-11-01T15:33:34+01:00</updated>
+  <updated>2016-05-13T18:04:20-05:00</updated>
   <id>http://nikolayderkach.com/</id>
   <author>
     <name><![CDATA[Nikolay Derkach]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[Things I've Learned Porting Ebay SDK to Python 3]]></title>
     <link href="http://nikolayderkach.com/things-ive-learned-porting-ebay-sdk-to-python-3/"/>
-    <updated>2013-10-27T00:00:00+02:00</updated>
+    <updated>2013-10-27T00:00:00-05:00</updated>
     <id>http://nikolayderkach.com/things-ive-learned-porting-ebay-sdk-to-python-3</id>
     <content type="html"><![CDATA[<p>One day I&rsquo;ve decided to play around with Ebay a little bit (nothing illegal i swear). And since I love python my first step was to find if there is an Python SDK available somewhere. And indeed there was <a href="https://go.developer.ebay.com/developers/ebay/product-updates/announcing-ebay-open-source-python-sdk">one</a>. Had a look at the corresponding <a href="https://github.com/timotheus/ebaysdk-python">github repository</a> it seems it&rsquo;s being maintained as well. Great! Well, not really - it doesn&rsquo;t work with Python 3. Oh well, time to get my hands dirty.</p>
 

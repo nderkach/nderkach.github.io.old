@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Heroku | hack.]]></title>
   <link href="http://nikolayderkach.com/categories/heroku/atom.xml" rel="self"/>
   <link href="http://nikolayderkach.com/"/>
-  <updated>2015-11-01T15:33:34+01:00</updated>
+  <updated>2016-05-13T18:04:20-05:00</updated>
   <id>http://nikolayderkach.com/</id>
   <author>
     <name><![CDATA[Nikolay Derkach]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[Hacking couchsurfing.com API Part 2]]></title>
     <link href="http://nikolayderkach.com/hacking-couchsurfing-dot-org-api-part-2/"/>
-    <updated>2013-11-24T21:51:00+01:00</updated>
+    <updated>2013-11-24T21:51:00-05:00</updated>
     <id>http://nikolayderkach.com/hacking-couchsurfing-dot-org-api-part-2</id>
     <content type="html"><![CDATA[<p>This is a follow-up for my <a href="/blog/2013/11/17/hacking-couchsurfing-dot-org-api/">previous article</a>. To remind you, I&rsquo;ve created a web app <a href="http://couchrequests.com">http://couchrequests.com</a> which extends functionality of <a href="http://couchsurfing.org">http://couchsurfing.org</a> by accessing their private API.</p>
 
@@ -68,7 +68,7 @@
   <entry>
     <title type="html"><![CDATA[How to Setup a Typical Python Development Environment on openSUSE]]></title>
     <link href="http://nikolayderkach.com/how-to-setup-a-typical-python-development-environment-on-opensuse/"/>
-    <updated>2013-10-21T00:00:00+02:00</updated>
+    <updated>2013-10-21T00:00:00-05:00</updated>
     <id>http://nikolayderkach.com/how-to-setup-a-typical-python-development-environment-on-opensuse</id>
     <content type="html"><![CDATA[<p>It&rsquo;s been a long time since I&rsquo;ve last installed a Linux distro on my desktop, more than 3 years I&rsquo;d say. Naturally I was quiet excited to watch the breakthrough it made over that time. Since my previous macbook air kicked the calendar, I figured time has come to give openSUSE a spin.</p>
 

@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Opensuse | hack.]]></title>
   <link href="http://nikolayderkach.com/categories/opensuse/atom.xml" rel="self"/>
   <link href="http://nikolayderkach.com/"/>
-  <updated>2015-11-01T15:33:34+01:00</updated>
+  <updated>2016-05-13T18:04:20-05:00</updated>
   <id>http://nikolayderkach.com/</id>
   <author>
     <name><![CDATA[Nikolay Derkach]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[How to Setup a Typical Python Development Environment on openSUSE]]></title>
     <link href="http://nikolayderkach.com/how-to-setup-a-typical-python-development-environment-on-opensuse/"/>
-    <updated>2013-10-21T00:00:00+02:00</updated>
+    <updated>2013-10-21T00:00:00-05:00</updated>
     <id>http://nikolayderkach.com/how-to-setup-a-typical-python-development-environment-on-opensuse</id>
     <content type="html"><![CDATA[<p>It&rsquo;s been a long time since I&rsquo;ve last installed a Linux distro on my desktop, more than 3 years I&rsquo;d say. Naturally I was quiet excited to watch the breakthrough it made over that time. Since my previous macbook air kicked the calendar, I figured time has come to give openSUSE a spin.</p>
 

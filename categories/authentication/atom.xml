@@ -4,7 +4,7 @@
   <title><![CDATA[Category: Authentication | hack.]]></title>
   <link href="http://nikolayderkach.com/categories/authentication/atom.xml" rel="self"/>
   <link href="http://nikolayderkach.com/"/>
-  <updated>2015-11-01T15:33:34+01:00</updated>
+  <updated>2016-05-13T18:04:20-05:00</updated>
   <id>http://nikolayderkach.com/</id>
   <author>
     <name><![CDATA[Nikolay Derkach]]></name>
@@ -16,7 +16,7 @@
   <entry>
     <title type="html"><![CDATA[Basic HTTP Authentication With Forms]]></title>
     <link href="http://nikolayderkach.com/basic-http-authentication-with-forms/"/>
-    <updated>2013-12-03T10:21:00+01:00</updated>
+    <updated>2013-12-03T10:21:00-05:00</updated>
     <id>http://nikolayderkach.com/basic-http-authentication-with-forms</id>
     <content type="html"><![CDATA[<p>Here is a fairly simple trick, how to use basic HTTP authentication (yes, the one where you have an ugly popup window) with HTML forms. I&rsquo;m actually quiet surprised not a lot of developers are aware of it, as it&rsquo;s quiet neat.</p>
 

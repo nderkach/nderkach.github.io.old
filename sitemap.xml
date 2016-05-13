@@ -1,60 +1,123 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>http://nikolayderkach.com/hacking-parse-dot-com-quota/</loc>
-    <lastmod>2015-05-24T10:41:37+02:00</lastmod>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>http://nikolayderkach.com/how-to-dynamically-generate-jade-templates-with-express-dot-js-and-node-dot-js/</loc>
-    <lastmod>2015-01-27T13:22:48+01:00</lastmod>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>http://nikolayderkach.com/using-flickr-api-for-beautiful-landmark-photos/</loc>
-    <lastmod>2015-01-20T07:01:44+01:00</lastmod>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>http://nikolayderkach.com/basic-http-authentication-with-forms/</loc>
-    <lastmod>2013-12-03T10:21:00+01:00</lastmod>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>http://nikolayderkach.com/hacking-couchsurfing-dot-org-api-part-2/</loc>
-    <lastmod>2013-11-24T21:51:00+01:00</lastmod>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>http://nikolayderkach.com/hacking-couchsurfing-dot-org-api/</loc>
-    <lastmod>2013-11-17T20:00:00+01:00</lastmod>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>http://nikolayderkach.com/things-ive-learned-porting-ebay-sdk-to-python-3/</loc>
-    <lastmod>2013-10-27T00:00:00+02:00</lastmod>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>http://nikolayderkach.com/how-to-setup-a-typical-python-development-environment-on-opensuse/</loc>
-    <lastmod>2013-10-21T00:00:00+02:00</lastmod>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>http://nikolayderkach.com/blog/archives/</loc>
-    <lastmod>2015-11-01T15:33:34+01:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>http://nikolayderkach.com/</loc>
-    <lastmod>2015-11-01T15:33:34+01:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>1.0</priority>
-  </url>
-  <url>
-    <loc>http://nikolayderkach.com/deleteGAPPSnotBefore20151029utc.html</loc>
-    <lastmod>2015-11-01T15:33:29+01:00</lastmod>
-    <priority>0.6</priority>
-  </url>
+<url>
+<loc>http://nikolayderkach.com/hacking-parse-dot-com-quota/</loc>
+<lastmod>2015-05-24T03:41:37-05:00</lastmod>
+</url>
+<url>
+<loc>http://nikolayderkach.com/how-to-dynamically-generate-jade-templates-with-express-dot-js-and-node-dot-js/</loc>
+<lastmod>2015-01-27T07:22:48-05:00</lastmod>
+</url>
+<url>
+<loc>http://nikolayderkach.com/using-flickr-api-for-beautiful-landmark-photos/</loc>
+<lastmod>2015-01-20T01:01:44-05:00</lastmod>
+</url>
+<url>
+<loc>http://nikolayderkach.com/basic-http-authentication-with-forms/</loc>
+<lastmod>2013-12-03T10:21:00-05:00</lastmod>
+</url>
+<url>
+<loc>http://nikolayderkach.com/hacking-couchsurfing-dot-org-api-part-2/</loc>
+<lastmod>2013-11-24T21:51:00-05:00</lastmod>
+</url>
+<url>
+<loc>http://nikolayderkach.com/hacking-couchsurfing-dot-org-api/</loc>
+<lastmod>2013-11-17T20:00:00-05:00</lastmod>
+</url>
+<url>
+<loc>http://nikolayderkach.com/things-ive-learned-porting-ebay-sdk-to-python-3/</loc>
+<lastmod>2013-10-27T00:00:00-05:00</lastmod>
+</url>
+<url>
+<loc>http://nikolayderkach.com/how-to-setup-a-typical-python-development-environment-on-opensuse/</loc>
+<lastmod>2013-10-21T00:00:00-05:00</lastmod>
+</url>
+<url>
+<loc>http://nikolayderkach.com/blog/archives/</loc>
+</url>
+<url>
+<loc>http://nikolayderkach.com/</loc>
+</url>
+<url>
+<loc>http://nikolayderkach.com/categories/opensuse/</loc>
+</url>
+<url>
+<loc>http://nikolayderkach.com/categories/python/</loc>
+</url>
+<url>
+<loc>http://nikolayderkach.com/categories/heroku/</loc>
+</url>
+<url>
+<loc>http://nikolayderkach.com/categories/zsh/</loc>
+</url>
+<url>
+<loc>http://nikolayderkach.com/categories/virtualenv/</loc>
+</url>
+<url>
+<loc>http://nikolayderkach.com/categories/pip/</loc>
+</url>
+<url>
+<loc>http://nikolayderkach.com/categories/python3/</loc>
+</url>
+<url>
+<loc>http://nikolayderkach.com/categories/ebay/</loc>
+</url>
+<url>
+<loc>http://nikolayderkach.com/categories/sdk/</loc>
+</url>
+<url>
+<loc>http://nikolayderkach.com/categories/curl/</loc>
+</url>
+<url>
+<loc>http://nikolayderkach.com/categories/couchsurfing/</loc>
+</url>
+<url>
+<loc>http://nikolayderkach.com/categories/api/</loc>
+</url>
+<url>
+<loc>http://nikolayderkach.com/categories/mongo/</loc>
+</url>
+<url>
+<loc>http://nikolayderkach.com/categories/http/</loc>
+</url>
+<url>
+<loc>http://nikolayderkach.com/categories/authentication/</loc>
+</url>
+<url>
+<loc>http://nikolayderkach.com/categories/flask/</loc>
+</url>
+<url>
+<loc>http://nikolayderkach.com/categories/flickr/</loc>
+</url>
+<url>
+<loc>http://nikolayderkach.com/categories/ios/</loc>
+</url>
+<url>
+<loc>http://nikolayderkach.com/categories/nodejs/</loc>
+</url>
+<url>
+<loc>http://nikolayderkach.com/categories/javascript/</loc>
+</url>
+<url>
+<loc>http://nikolayderkach.com/categories/expressjs/</loc>
+</url>
+<url>
+<loc>http://nikolayderkach.com/categories/jade/</loc>
+</url>
+<url>
+<loc>http://nikolayderkach.com/categories/templates/</loc>
+</url>
+<url>
+<loc>http://nikolayderkach.com/categories/parse/</loc>
+</url>
+<url>
+<loc>http://nikolayderkach.com/categories/balancer/</loc>
+</url>
+<url>
+<loc>http://nikolayderkach.com/categories/quota/</loc>
+</url>
+<url>
+<loc>http://nikolayderkach.com/deleteGAPPSnotBefore20151029utc.html</loc>
+<lastmod>2016-05-13T17:37:53-05:00</lastmod>
+</url>
 </urlset>
