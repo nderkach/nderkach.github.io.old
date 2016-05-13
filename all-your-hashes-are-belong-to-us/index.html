@@ -5,11 +5,11 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Hacking Parse.com Quota - hack.</title>
+  <title>All Your Hashes Are Belong to Us - hack.</title>
   <meta name="author" content="Nikolay Derkach">
 
   
-  <meta name="description" content="Hacking Parse.com quota" />
+  <meta name="description" content="All Your Hashes Are Belong To Us" />
   <meta name="keywords" content="Nikolay Derkach, nderkach, coding, programming, hacking, travel, ios, python, api, apps">
 
   <!-- http://t.co/dKP3o1e -->
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://nikolayderkach.com/hacking-parse-dot-com-quota">
+  <link rel="canonical" href="http://nikolayderkach.com/all-your-hashes-are-belong-to-us">
   <link href="/favicon.png" rel="icon">
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <link href="/atom.xml" rel="alternate" title="hack." type="application/atom+xml">
@@ -81,7 +81,7 @@
   
   <header>
     
-      <h1 class="entry-title">Hacking Parse.com Quota</h1>
+      <h1 class="entry-title">All Your Hashes Are Belong to Us</h1>
     
     
       <p class="meta">
@@ -90,7 +90,7 @@
 
 
 
-<time class='entry-date' datetime='2015-05-24T03:41:37-05:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>24</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>3:41 am</span></time>
+<time class='entry-date' datetime='2016-05-13T18:07:01-05:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>13</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>6:07 pm</span></time>
         
            | <a href="#disqus_thread"
              data-disqus-identifier="http://nikolayderkach.com">Comments</a>
@@ -100,28 +100,46 @@
   </header>
 
 
-<div class="entry-content"><p>Parse.com is a great BaaS (backend as a service) solution, it helped me numerous times to take a mobile app prototype or MVP off the ground and focus on the product features, rather than building the database layer, push notifications infrastructure and analytics platform from scratch.</p>
+<div class="entry-content"><p>I&rsquo;ve seen quite a few tricks of apps trying to hide credentials to access APIs to prevent reverse-engineering. Let me say it again: if you assume that your deliverable is secure, and use security by obscurity, you are doing it wrong. Sigh. If you delivery the binary with credentials to the user, assume that they will be able eventually to recover it.</p>
 
-<p>The provide you with a pretty lean pricing structure when you pay proportionally to the number of requests you make to the API on top of free 30 requests per second. Now, even though one should optimize an app to make as few requests to the API as possible, Parse has no built-in request throttling support, i.e. if you have a spike of API usage at some point, there is no way to balance it. If you reach your plan quota, all the requests made above the threshold are being simply rejected. Parse seem to present it as a feature ensuring a better QoS and recommends upgrading your quota: this way the API is responsive and you don&rsquo;t have to wait, but frankly I&rsquo;d much rather make my users wait a little bit every once in a while than lose their data.</p>
+<p>Recently I needed to replicate API access for a major ticketing website. They use Digest authentication to generate access tokens which expire every 5 minutes. I was able to intercept almost all the missing pieces of puzzle, including API key using mitmproxy as usual.</p>
 
 <!-- more -->
 
 
-<p>Naturally, if you consistently exceed your plan&rsquo;s quota, you should upgrade. In cases of short request bursts - here is the solution.</p>
+<h3>Brute force</h3>
 
-<h3>Queue&#8217;em Up!</h3>
+<p>The only piece which was missing was the password, or API secret. Since from a look at the Authorization header I was able to deduct the hashing algorithm from the fact that it&rsquo;s a digest authentication with quality of protection (qop), my first idea was to brute-force the password. Here is the algorithm.</p>
 
-<p>For starter, I&rsquo;ve wrote a simple script sending 50 requests/s to Parse API, and see how it reacts. It seems that the quota limit is checked every minute, so on my free plan I can make up 1800 requests a minute. When you reach your quota limit, you get a <code>400</code>.</p>
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>HA1 = MD5(username:realm:password)
+</span><span class='line'>HA2 = MD5(method:digestURI)
+</span><span class='line'>response = MD5(HA1:nonce:nonceCount:cnonce:qop:HA2)</span></code></pre></td></tr></table></div></figure>
 
-<p>I&rsquo;ve built a very simple proxy with Node.js which intercepts all the requests to Parse.com and puts them in a throttled FIFO queue. Every 30 seconds or so, a requests is taken from a queue and sent to <code>api.parse.com</code>.
-No more request drops!</p>
 
-<p>Here is the source code for the proxy: <a href="https://github.com/nderkach/parse-balancer">https://github.com/nderkach/parse-balancer</a></p>
+<p>As this particular type of digest authentication uses qop, it means that you can&rsquo;t apply a replay attack to it, and response expires every 5 seconds due to nonce which is based on timestamp aand generated by the server. The way it works, is that a client sends a request to the server with no Authorization header and gets 401 and a nonce in response. Then it calculates a response based on that information. The client then sends this info to the server in a consecutive request within Authorization header. As the client and the server have the same information to calculate the response, the server decides whether to authenticate the user based on this information.</p>
 
-<p>Feel free to try it out live here as well: <a href="https://parse.space">https://parse.space</a>
-I pinky promise not to read your payloads. Really.</p>
+<p>Unfortunately, brute-force attack wasn&rsquo;t exactly feasible, as the only assumption I had was that the password has the same length and structure as the username (26 characters lowercase alphanumeric). It was a wild guess of course, but turned out to be right. I&rsquo;d then need to reverse MD5 two times: first to get HA1 MD5 digest which is 32 characters (36<sup>32</sup> combinations) and second to get the password (presumably 36<sup>26</sup> combinations). Even though MD5 is one of the weakest hash algorithms out there, even at a rate of 200,000 hashes/s which is some of the best for modern GPUs, it would take about 1e36 years to go through all the combinations. That takes longer than grabbing a beer from a fridge, so naturally I had to pass on this tempting opportunity.</p>
 
-<p>To make for example iOS SDK work with our brand new proxy, you need to replace a string &ldquo;api.parse.com&rdquo; in Parse binary. To patch a Mach-O universal binary, you need the string to be of the same length as the original one or shorter padded with zeros, this way offsets for the following instructions would remain the same. More on that in the next article.</p>
+<h3>Extract it from a keychain</h3>
+
+<p>It&rsquo;s great the developers store passwords and certificates in the iOS Keychain. This is a way to go. The way it works in iOS is that you can assign your credentials to a keychain group, so that only your app can access them. Overall, you iOS passcode or fingerprint works as a key to decrypt the keychain and once you unlock your phone, you can dump all the internet passwords and certificates. The keychain persistence layer is a simple sqlite database. I use the tool called <a href="https://github.com/ptoomey3/Keychain-Dumper">Keychain dumper</a> to check it out. Unfortunately the password I was looking for wasn&rsquo;t there, tough luck.</p>
+
+<h3>Time to dig into the binary</h3>
+
+<p>So, by inziping IPA, it didn&rsquo;t look that the password is retrieved from resources. Neither I&rsquo;ve spotted anything password-like by spoofing http requests coming from the app. Which leaves as with the binary itself. By default all the IPA file from App Store are encrypted, so you need to decrypt them first. I use a handy tool called <a href="https://github.com/stefanesser/dumpdecrypted">Dump Decrypted</a> which saves you some time, although you can use gdb to dump memory directly.</p>
+
+<p>Once decrypted I use Hopper Disassembler to analyses the structure of the binary. Particularly I&rsquo;d look for strings, as the password might be hardcoded in the binary, or at the methods of AppDelegate and see if there are methods to retrieve said password. In this case, it looks that the password has been obfuscated, but I found a method call of the delegate which allows you to retrieve it in runtime.</p>
+
+<h3>Play with the app in runtime</h3>
+
+<p>This is one of my favorite tools for iOS reverse-engineering. It&rsquo;s called <a href="http://www.cycript.org">Cycrypt</a> and it allows you to explore running iOS application and inject custom code. So I&rsquo;ve attached to my running app and accessed an instance of AppDelegate to call the method to display the API secret. Done and done.</p>
+
+<h3>So, is there a way from preventing my API from reverse-engineering?</h3>
+
+<p>I don&rsquo;t think so. It&rsquo;s always a matter of time and determination for someone to find a way to replicate your app functionality. Here is a rule of thumb: don&rsquo;t store any secret credentials in a deliverable.</p>
 </div>
 
 
@@ -137,12 +155,12 @@ I pinky promise not to read your payloads. Really.</p>
 
 
 
-<time class='entry-date' datetime='2015-05-24T03:41:37-05:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>24</span><span class='date-suffix'>th</span>, <span class='date-year'>2015</span></span> <span class='time'>3:41 am</span></time>
+<time class='entry-date' datetime='2016-05-13T18:07:01-05:00'><span class='date'><span class='date-month'>May</span> <span class='date-day'>13</span><span class='date-suffix'>th</span>, <span class='date-year'>2016</span></span> <span class='time'>6:07 pm</span></time>
       
 
 <span class="categories">
   
-    <a class='category' href='/categories/balancer/'>balancer</a>, <a class='category' href='/categories/javascript/'>javascript</a>, <a class='category' href='/categories/nodejs/'>nodejs</a>, <a class='category' href='/categories/parse/'>parse</a>, <a class='category' href='/categories/quota/'>quota</a>
+    <a class='category' href='/categories/api/'>api</a>, <a class='category' href='/categories/ios/'>ios</a>, <a class='category' href='/categories/reverse-engineering/'>reverse engineering</a>
   
 </span>
 
@@ -151,7 +169,7 @@ I pinky promise not to read your payloads. Really.</p>
     
       <div class="sharing">
   
-  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://nikolayderkach.com/hacking-parse-dot-com-quota/" data-via="nderkach" data-counturl="http://nikolayderkach.com/hacking-parse-dot-com-quota/" >Tweet</a>
+  <a href="//twitter.com/share" class="twitter-share-button" data-url="http://nikolayderkach.com/all-your-hashes-are-belong-to-us/" data-via="nderkach" data-counturl="http://nikolayderkach.com/all-your-hashes-are-belong-to-us/" >Tweet</a>
   
   
   
@@ -160,10 +178,8 @@ I pinky promise not to read your payloads. Really.</p>
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/how-to-dynamically-generate-jade-templates-with-express-dot-js-and-node-dot-js/" title="Previous Post: How to dynamically generate Jade templates with Express.js">&laquo; How to dynamically generate Jade templates with Express.js</a>
+        <a class="basic-alignment left" href="/hacking-parse-dot-com-quota/" title="Previous Post: Hacking Parse.com quota">&laquo; Hacking Parse.com quota</a>
       
-      
-        <a class="basic-alignment right" href="/all-your-hashes-are-belong-to-us/" title="Next Post: All Your Hashes Are Belong To Us">All Your Hashes Are Belong To Us &raquo;</a>
       
     </p>
   </footer>
@@ -288,8 +304,8 @@ I pinky promise not to read your payloads. Really.</p>
       
         
         // var disqus_developer = 1;
-        var disqus_identifier = 'http://nikolayderkach.com/hacking-parse-dot-com-quota/';
-        var disqus_url = 'http://nikolayderkach.com/hacking-parse-dot-com-quota/';
+        var disqus_identifier = 'http://nikolayderkach.com/all-your-hashes-are-belong-to-us/';
+        var disqus_url = 'http://nikolayderkach.com/all-your-hashes-are-belong-to-us/';
         var disqus_script = 'embed.js';
       
     (function () {

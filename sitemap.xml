@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
+<loc>http://nikolayderkach.com/all-your-hashes-are-belong-to-us/</loc>
+<lastmod>2016-05-13T18:07:01-05:00</lastmod>
+</url>
+<url>
 <loc>http://nikolayderkach.com/hacking-parse-dot-com-quota/</loc>
 <lastmod>2015-05-24T03:41:37-05:00</lastmod>
 </url>
@@ -115,6 +119,9 @@
 </url>
 <url>
 <loc>http://nikolayderkach.com/categories/quota/</loc>
+</url>
+<url>
+<loc>http://nikolayderkach.com/categories/reverse-engineering/</loc>
 </url>
 <url>
 <loc>http://nikolayderkach.com/deleteGAPPSnotBefore20151029utc.html</loc>
