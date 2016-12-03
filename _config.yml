@@ -61,6 +61,8 @@ default_asides: [custom/asides/mailchimp.html, custom/asides/aboutmetwitter.html
 # post_asides:
 # page_asides:
 
+theme: minimal-mistakes-jekyll
+
 # ----------------------- #
 #   3rd Party Settings    #
 # ----------------------- #
